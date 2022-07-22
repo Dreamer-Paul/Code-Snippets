@@ -1,0 +1,43 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.root{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+header{
+    color: #fff;
+    padding: 1em;
+    background-color: black;
+}
+
+main{
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    background-color: aliceblue;
+}
+
+aside{
+    padding: 1em;
+    background-color: aquamarine;
+}
+
+section{
+    flex: 1;
+    padding: 1em;
+    overflow: auto;
+}
+
+.large-height-box{
+    color: #fff;
+    padding: 1em;
+    width: 15em;
+    height: 120vh;
+    margin-top: 1em;
+    background-color: lightskyblue;
+}

@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>获取设备摄像头和麦克风权限</title>
+</head>
+<body>
+<script>
+async function getMedia(constraints) {
+  let stream = null;
+
+  alert(navigator.mediaDevices)
+
+  try {
+    stream = await navigator.mediaDevices.getUserMedia(constraints);
+    /* use the stream */
+    console.log("aaaa");
+  } catch(err) {
+    /* handle the error */
+    alert(err, "bbbb");
+  }
+}
+
+getMedia({ audio: true, video: true });
+</script>
+</body>
+</html>
