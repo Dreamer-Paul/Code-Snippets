@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iFrame 加载失败的出错</title>
+</head>
+<body>
+    <h1>下面是一个简单的 iFrame，但是内容不存在</h1>
+    <p>可以看到控制台里面默认是不会执行 onerror 函数的</p>
+    <iframe id="iframe" src="not-found.html" frameborder="0"></iframe>
+    <script>
+        const iframe = document.getElementById("iframe");
+
+        iframe.onload = () => {
+            // 明明失败了，为什么还是成功呢？
+            console.log("iframe 成功加载");
+        }
+
+        iframe.onerror = () => {
+            console.log("iframe 加载失败");
+        }
+    </script>
+</body>
+</html>

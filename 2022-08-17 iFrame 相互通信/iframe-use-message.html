@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iFrame 加载失败的出错</title>
+</head>
+<body>
+    <h1>奇怪，为什么 postMessage 没反应呢</h1>
+    <button onclick="sendMessage">发消息</button>
+    <iframe id="iframe" src="content.html" frameborder="0"></iframe>
+    <script>
+        const iframe = document.getElementById("iframe");
+
+        iframe.contentWindow.postMessage("test", "*");
+        iframe.contentWindow.postMessage("sad", "*");
+
+        function receiveMessage(ev) {
+            console.log("receive", ev.data);
+        }
+
+        function sendMessage(ev) {
+            iframe.contentWindow.postMessage("test", "*");
+        }
+
+        window.addEventListener("message", receiveMessage, false)
+    </script>
+</body>
+</html>
