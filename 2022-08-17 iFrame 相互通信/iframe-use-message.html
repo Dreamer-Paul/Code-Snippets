@@ -4,24 +4,38 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iFrame 加载失败的出错</title>
+    <title>iFrame 子和父相互通信</title>
+    <style>
+        iframe{
+            display: block;
+            border: 1px solid;
+            margin-top: 1em;
+        }
+    </style>
 </head>
 <body>
-    <h1>奇怪，为什么 postMessage 没反应呢</h1>
-    <button onclick="sendMessage">发消息</button>
+    <h1>iFrame 子和父相互通信</h1>
+    <p>如果 iFrame 还没加载完成，执行 postMessage 方法是没作用的！</p>
+    <button id="btn">给子发消息</button>
     <iframe id="iframe" src="content.html" frameborder="0"></iframe>
     <script>
+        const btn = document.getElementById("btn");
         const iframe = document.getElementById("iframe");
 
+        // iFrame 可能还没加载出来，没用的
         iframe.contentWindow.postMessage("test", "*");
         iframe.contentWindow.postMessage("sad", "*");
 
-        function receiveMessage(ev) {
-            console.log("receive", ev.data);
+        function sendMessage(ev) {
+            iframe.contentWindow.postMessage(`test ${new Date().getTime()}`, "*");
         }
 
-        function sendMessage(ev) {
-            iframe.contentWindow.postMessage("test", "*");
+        btn.onclick = sendMessage;
+
+        function receiveMessage(ev) {
+            if (typeof ev.data !== "string") return;
+
+            console.log("Parent Receive:", ev.data);
         }
 
         window.addEventListener("message", receiveMessage, false)
