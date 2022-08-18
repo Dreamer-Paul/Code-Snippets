@@ -5,21 +5,49 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iFrame 加载失败的出错</title>
+    <style>
+        iframe{
+            display: block;
+            border: 1px solid;
+            margin-top: 1em;
+        }
+    </style>
 </head>
 <body>
     <h1>下面是一个简单的 iFrame，但是内容不存在</h1>
     <p>可以看到控制台里面默认是不会执行 onerror 函数的</p>
-    <iframe id="iframe" src="not-found.html" frameborder="0"></iframe>
+    <iframe id="iframe" src="https://www.baidu.com" frameborder="0"></iframe>
+    <iframe id="iframeHasErr" src="iframe-haserror.html" frameborder="0"></iframe>
     <script>
         const iframe = document.getElementById("iframe");
+        const iframeHasErr = document.getElementById("iframeHasErr");
 
-        iframe.onload = () => {
+        iframe.onload = (ev) => {
             // 明明失败了，为什么还是成功呢？
-            console.log("iframe 成功加载");
+            console.log(ev, "iframe 成功加载");
         }
 
-        iframe.onerror = () => {
-            console.log("iframe 加载失败");
+        iframe.onerror = (ev) => {
+            console.log(ev, "iframe 加载失败");
+        }
+
+        iframe.onabort = (ev) => {
+            console.log(ev, "iframe 被阻止加载");
+        }
+
+        // 无效
+        iframeHasErr.onerror = (ev) => {
+            console.log(ev, "iframeHasErr");
+        }
+
+        // 有效
+        iframeHasErr.contentWindow.onerror = (ev) => {
+            console.log(ev, "iframeHasErr");
+        }
+
+        // 子 iFrame 报错，父是不知道的
+        window.onerror = (ev) => {
+            console.log(ev);
         }
     </script>
 </body>
