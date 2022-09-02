@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宽高自适应栅格</title>
+    <link rel="stylesheet" href="grid.css">
+</head>
+<body>
+    <div class="container">
+        <div class="grid">
+            <div class="grid-item">
+                <div class="grid-content">
+                    <span>1</span>
+                </div>
+            </div>
+            <div class="grid-item">
+                <div class="grid-content">
+                    <span>2</span>
+                </div>
+            </div>
+            <div class="grid-item">
+                <div class="grid-content">
+                    <span>3</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const obj = {
+            container: document.querySelector(".container"),
+            grid: document.querySelector(".grid")
+        }
+
+        window.onresize = () => {
+            let bigest = '';
+            const { clientHeight, clientWidth } = obj.container;
+            
+            if (clientHeight > clientWidth) {
+                bigest = 'height';
+            }
+            else {
+                bigest = 'width';
+            }
+
+            if (obj.grid.children.length < 4) {
+                if (bigest === "width") {
+                    obj.grid.classList.add("single-line");
+                    obj.grid.classList.remove("single-row");
+                }
+                else {
+                    obj.grid.classList.add("single-row");
+                    obj.grid.classList.remove("single-line");
+                }
+                
+            }
+            else {
+                obj.grid.className = "grid";
+            }
+
+            console.log(bigest);
+        }
+    </script>
+</body>
+</html>
