@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img src="icon.png" alt="">
+    <button id="sendBtn">点击发送一条消息</button>
+    <script>
+        const btn = document.getElementById("sendBtn");
+
+        let enabled = true;
+        const notification = Notification.requestPermission();
+
+        // Fuck Safari
+        if (notification === undefined) {
+            if (Notification.permission === "granted") {
+                enabled = true;
+            }
+        }
+        else {
+            notification.then((res) => {
+                if (res === "granted") {
+                    enabled = true;
+                }
+            });
+        }
+
+        const sendMessage = (title, content) => {
+            if (!enabled) return;
+
+            return new Notification(title, content ? { body: content, icon: "icon.png" } : undefined);
+        }
+
+        btn.onclick = () => {
+            sendMessage("测试标题", "测试内容，这里是保罗，哈哈哈哈哈哈哈");
+        }
+    </script>
+</body>
+</html>
