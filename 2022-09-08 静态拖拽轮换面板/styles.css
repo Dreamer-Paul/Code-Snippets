@@ -1,0 +1,50 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html, body{
+    height: 100%;
+}
+
+body{
+    padding: 2em;
+}
+
+.container{
+    color: #fff;
+    height: 100%;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1em;
+    background-color: #333;
+}
+
+.main-content{
+    flex: 1;
+    border-radius: 1em;
+    background-color: #444;
+    margin-bottom: 1em;
+}
+
+.secondly-content{
+    flex: 0 1;
+}
+
+.float-box{
+    resize: both;
+    overflow: auto;
+    padding: 1em;
+    position: relative;
+    border-radius: 1em;
+    background-color: #777;
+}
+
+.resize-control{
+    width: 1em;
+    height: 1em;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+}

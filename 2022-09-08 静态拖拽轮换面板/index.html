@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <main class="container">
+        <div class="main-content"></div>
+        <div class="secondly-content">
+            <div class="float-box">
+                <button>切换</button>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi veniam ex aut perspiciatis exercitationem ad laborum nesciunt numquam harum quia. Veniam aperiam maxime iste ex omnis sint velit perferendis labore.</p>
+                <span class="resize-control"></span>
+            </div>
+        </div>
+    </main>
+    <script>
+        const obj = {
+            box: document.querySelector(".float-box"),
+            btn: document.querySelector(".float-box button")
+        };
+
+        const state = {
+            moved: false
+        };
+
+        const translate = {
+            x: -1,
+            y: -1
+        };
+
+        const staticToFixed = () => {
+            state.moved = true;
+
+            obj.box.style.top = 0;
+            obj.box.style.left = 0;
+
+            const x = obj.box.offsetLeft;
+            const y = obj.box.offsetTop;
+
+            obj.box.style.transform = `translate(${x}px, ${y}px)`;
+
+            translate.x = x;
+            translate.y = y;
+
+            obj.box.style.width = `${obj.box.clientWidth}px`;
+            obj.box.style.height = `${obj.box.clientHeight}px`;
+
+            obj.box.style.position = "fixed";
+        }
+
+        const fixedToStatic = () => {
+            state.moved = false;
+
+            obj.box.style.width = '';
+            obj.box.style.height = '';
+            obj.box.style.position = '';
+            obj.box.style.transform = '';
+        }
+
+        obj.btn.onclick = (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+
+            if (state.moved) {
+                fixedToStatic();
+            }
+            else {
+                staticToFixed();
+            }
+        }
+
+        const init = () => {
+            const location = {
+                x: 0,
+                y: 0
+            };
+
+            const parentUp = (ev) => {
+                document.removeEventListener("mousemove", parentMove);
+                document.removeEventListener("mouseup", parentUp);
+            }
+
+            const parentMove = (ev) => {
+                // 移动的时候拿到的坐标是鼠标的（较大）减去按下前鼠标距离元素 xy 的距离
+                const x = ev.clientX - location.x;
+                const y = ev.clientY - location.y;
+
+                translate.x = x;
+                translate.y = y;
+
+                obj.box.style.transform = `translate(${x}px, ${y}px)`;
+            }
+
+            obj.box.onmousedown = (ev) => {
+                if (!state.moved) return;
+
+                // Pio 的解法，使用 translate 就不行了
+                // const { offsetLeft, offsetTop } = ev.currentTarget;
+
+                // 记录按下前的坐标
+                location.x = ev.clientX - translate.x;
+                location.y = ev.clientY - translate.y;
+
+                document.addEventListener("mousemove", parentMove);
+                document.addEventListener("mouseup", parentUp);
+            }
+        }
+        init();
+    </script>
+</body>
+</html>
