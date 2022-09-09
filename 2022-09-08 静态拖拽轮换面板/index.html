@@ -15,6 +15,7 @@
                 <button>切换</button>
                 <div class="box-content">
                     <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi veniam ex aut perspiciatis exercitationem ad laborum nesciunt numquam harum quia. Veniam aperiam maxime iste ex omnis sint velit perferendis labore.</p>
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maiores voluptates excepturi architecto, ab commodi quibusdam nostrum aut et porro quidem aliquam exercitationem minus quia libero laboriosam delectus blanditiis culpa corporis!</p>
                 </div>
                 <span class="resize-control"></span>
             </div>
@@ -27,7 +28,8 @@
         };
 
         const state = {
-            moved: false
+            moved: false,
+            resizing: false,
         };
 
         const translate = {
@@ -98,9 +100,11 @@
             };
 
             const parentUp = (ev) => {
+                obj.box.style.userSelect = '';
+
                 document.removeEventListener("mousemove", parentMove);
                 document.removeEventListener("mouseup", parentUp);
-            }
+            };
 
             const parentMove = (ev) => {
                 // 移动的时候拿到的坐标是鼠标的（较大）减去按下前鼠标距离元素 xy 的距离
@@ -128,10 +132,14 @@
                 translate.y = y;
 
                 obj.box.style.transform = `translate(${x}px, ${y}px)`;
-            }
+            };
 
             obj.box.onmousedown = (ev) => {
                 if (!state.moved) return;
+
+                if (ev.target !== obj.box) return;
+
+                obj.box.style.userSelect = 'none';
 
                 // Pio 的解法，使用 translate 就不行了
                 // const { offsetLeft, offsetTop } = ev.currentTarget;
@@ -142,7 +150,34 @@
 
                 document.addEventListener("mousemove", parentMove);
                 document.addEventListener("mouseup", parentUp);
-            }
+            };
+
+            const onresize = () => {
+                if (!state.moved) return;
+
+                state.resizing = false;
+
+                let w = obj.box.clientWidth;
+                let h = obj.box.clientHeight;
+
+                if (w + translate.x >= window.innerWidth) {
+                    w = window.innerWidth - translate.x;
+                }
+                if (h + translate.y >= window.innerHeight) {
+                    h = window.innerHeight - translate.y;
+                }
+
+                obj.box.style.width = `${w}px`;
+                obj.box.style.height = `${h}px`;
+            };
+
+            window.onresize = () => {
+                if (state.resizing) return;
+
+                state.resizing = true;
+
+                window.requestAnimationFrame(onresize);
+            };
         }
 
         init();
