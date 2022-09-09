@@ -25,20 +25,44 @@ body{
     flex: 1;
     border-radius: 1em;
     background-color: #444;
-    margin-bottom: 1em;
 }
 
 .secondly-content{
     flex: 0 1;
+    margin-top: 1em;
+}
+.secondly-content.floated{
+    margin-top: 0;
 }
 
 .float-box{
     resize: both;
     overflow: auto;
     padding: 1em;
+    padding-top: 3em;
     position: relative;
     border-radius: 1em;
     background-color: #777;
+}
+
+.float-box::before{
+    content: "";
+    width: 1px;
+    height: 1px;
+    top: 1em;
+    left: 1em;
+    display: flex;
+    position: absolute;
+    background-color: currentColor;
+    box-shadow: 3px 0 currentColor, 6px 0 currentColor, 9px 0 currentColor,
+        0 3px currentColor, 3px 3px currentColor, 6px 3px currentColor, 9px 3px currentColor,
+        0 6px currentColor, 3px 6px currentColor, 6px 6px currentColor, 9px 6px currentColor;
+}
+
+.float-box button{
+    top: 1em;
+    right: 1em;
+    position: absolute;
 }
 
 .resize-control{

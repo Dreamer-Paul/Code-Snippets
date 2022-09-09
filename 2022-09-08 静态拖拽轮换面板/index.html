@@ -13,7 +13,9 @@
         <div class="secondly-content">
             <div class="float-box">
                 <button>切换</button>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi veniam ex aut perspiciatis exercitationem ad laborum nesciunt numquam harum quia. Veniam aperiam maxime iste ex omnis sint velit perferendis labore.</p>
+                <div class="box-content">
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi veniam ex aut perspiciatis exercitationem ad laborum nesciunt numquam harum quia. Veniam aperiam maxime iste ex omnis sint velit perferendis labore.</p>
+                </div>
                 <span class="resize-control"></span>
             </div>
         </div>
@@ -33,22 +35,33 @@
             y: -1
         };
 
-        const staticToFixed = () => {
+        const staticToFixed = (offset = {}) => {
+            offset = {
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0,
+                ...offset
+            };
+
             state.moved = true;
 
             obj.box.style.top = 0;
             obj.box.style.left = 0;
 
-            const x = obj.box.offsetLeft;
-            const y = obj.box.offsetTop;
+            const x = obj.box.offsetLeft + offset.x;
+            const y = obj.box.offsetTop + offset.y;
 
             obj.box.style.transform = `translate(${x}px, ${y}px)`;
 
             translate.x = x;
             translate.y = y;
 
-            obj.box.style.width = `${obj.box.clientWidth}px`;
-            obj.box.style.height = `${obj.box.clientHeight}px`;
+            const w = obj.box.clientWidth + offset.width;
+            const h = obj.box.clientHeight + offset.height;
+
+            obj.box.style.width = `${w}px`;
+            obj.box.style.height = `${h}px`;
 
             obj.box.style.position = "fixed";
         }
@@ -68,9 +81,13 @@
 
             if (state.moved) {
                 fixedToStatic();
+
+                obj.box.parentElement.classList.remove("floated");
             }
             else {
-                staticToFixed();
+                staticToFixed({ x: 10, height: -10, width: -10 });
+
+                obj.box.parentElement.classList.add("floated");
             }
         }
 
@@ -87,8 +104,25 @@
 
             const parentMove = (ev) => {
                 // 移动的时候拿到的坐标是鼠标的（较大）减去按下前鼠标距离元素 xy 的距离
-                const x = ev.clientX - location.x;
-                const y = ev.clientY - location.y;
+                let x = ev.clientX - location.x;
+                let y = ev.clientY - location.y;
+
+                if (x <= 0) {
+                    x = 0;
+                }
+                if (y <= 0) {
+                    y = 0;
+                }
+
+                const maxX = window.innerWidth - obj.box.clientWidth;
+                const maxY = window.innerHeight - obj.box.clientHeight;
+
+                if (x >= maxX) {
+                    x = maxX;
+                }
+                if (y >= maxY) {
+                    y = maxY;
+                }
 
                 translate.x = x;
                 translate.y = y;
@@ -110,6 +144,7 @@
                 document.addEventListener("mouseup", parentUp);
             }
         }
+
         init();
     </script>
 </body>
