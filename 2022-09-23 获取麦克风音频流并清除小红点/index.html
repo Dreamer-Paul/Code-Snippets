@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>获取麦克风音频流并清除小红点</title>
+</head>
+<body>
+  <p>详见控制台输出内容，以及浏览器小红点效果</p>
+  <p>
+    <audio id="trackPlayer" controls></audio>
+  </p>
+  <p>
+    <button id="removeTrack">卸载小红点</button>
+  </p>
+  <script>
+    let stream = null;
+    let newStream = new MediaStream();
+
+    const player = document.querySelector("#trackPlayer");
+    const removeTrackBtn = document.querySelector("#removeTrack");
+
+    removeTrackBtn.onclick = () => {
+      removeTrack();
+    };
+
+    const removeTrack = () => {
+      const newStreamTracks = newStream.getTracks();
+
+      console.log("被复制出来的轨道", newStreamTracks);
+
+      newStreamTracks.forEach(item => {
+        item.stop();
+        // 只要 stop 理论上就会停止占用麦克风设备了
+        // stream.removeTrack(item);
+      });
+    }
+
+    async function getMedia(constraints) {
+      console.log("设备获取信息", navigator.mediaDevices);
+
+      try {
+        stream = await navigator.mediaDevices.getUserMedia(constraints);
+
+        console.log(stream);
+
+        const audioTracks = stream.getAudioTracks();
+
+        console.log("刚创建的轨道", audioTracks);
+
+        audioTracks.forEach(item => {
+          // newStream.addTrack(item);
+          // ! 只要使用 clone 方法，就会导致 stop 流时，浏览器依旧显示小红点（麦克风设备使用中）
+          newStream.addTrack(item.clone());
+        });
+
+        player.srcObject = newStream;
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    getMedia({ audio: true });
+  </script>
+</body>
+</html>
