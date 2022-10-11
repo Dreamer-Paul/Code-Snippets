@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    // ...
+    "src",
+    "__tests__",
+    "mocks",
+    "typings.d.ts",
+    ".eslintrc.cjs",
+    "jest.config.js",
+    "postcss.config.js",
+    "vite.config.ts"
+  ]
+}
