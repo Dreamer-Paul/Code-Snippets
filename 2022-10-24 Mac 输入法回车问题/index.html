@@ -5,9 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mac 输入法回车问题</title>
+    <style>
+        code{
+            color: brown;
+        }
+    </style>
 </head>
 <body>
     <p>在 Mac 系统上使用中文输入法，输入任意内容后不选择联想项，直接按回车键，如果选择非 <code>onkeypress</code> 的方式捕获，则会触发回车事件，正常情况下应该不做处理。</p>
+    <p>目前发现的两种解法：</p>
+    <ul>
+        <li>使用 <code>onkeypress</code> 结合 <code>event.key === "Enter"</code> 判断</li>
+        <li>使用 <code>onkeydown</code> 结合 <code>event.keyCode === 13</code> 判断（此时 key 的值为 "Enter" 时， keyCode 可能不为 13）</li>
+    </ul>
     <select id="event">
         <option value="onkeydown">onkeydown</option>
         <option value="onkeypress">onkeypress</option>
@@ -25,12 +35,16 @@
                 return;
             }
 
-            if (ev.key === "Enter") {
-                console.log(type, "按下了 Enter 键");
+            if (ev.keyCode === 13) {
+                console.log(type, ev.keyCode, "keyCode 判断按下 Enter 键");
             }
-        }
 
-        input.onkeydown = ev => handleKeyEvent("onkeydown", ev);
+            if (ev.key === "Enter") {
+                console.log(type, "key 判断按下了 Enter 键");
+            }
+        };
+
+        input.onkeydown = (ev) => handleKeyEvent("onkeydown", ev);
         input.onkeypress = (ev) => handleKeyEvent("onkeypress", ev);
         input.onkeyup = (ev) => handleKeyEvent("onkeyup", ev);
     </script>
