@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mac 输入法回车问题</title>
+</head>
+<body>
+    <p>在 Mac 系统上使用中文输入法，输入任意内容后不选择联想项，直接按回车键，如果选择非 <code>onkeypress</code> 的方式捕获，则会触发回车事件，正常情况下应该不做处理。</p>
+    <select id="event">
+        <option value="onkeydown">onkeydown</option>
+        <option value="onkeypress">onkeypress</option>
+        <option value="onkeyup">onkeyup</option>
+    </select>
+    <input id="input" />
+    <script>
+        const el = {
+            select: document.getElementById("event"),
+            input: document.getElementById("input"),
+        };
+
+        const handleKeyEvent = (type, ev) => {
+            if (el.select.value !== type) {
+                return;
+            }
+
+            if (ev.key === "Enter") {
+                console.log(type, "按下了 Enter 键");
+            }
+        }
+
+        input.onkeydown = ev => handleKeyEvent("onkeydown", ev);
+        input.onkeypress = (ev) => handleKeyEvent("onkeypress", ev);
+        input.onkeyup = (ev) => handleKeyEvent("onkeyup", ev);
+    </script>
+</body>
+</html>
