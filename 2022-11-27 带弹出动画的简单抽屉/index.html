@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>带弹出动画的简单抽屉</title>
+  <style>
+    .drawer {
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 20em;
+      padding: 1em;
+      position: fixed;
+      background-color: aliceblue;
+      transform: translateX(100%);
+      transition: transform .3s;
+    }
+
+    .drawer.active {
+      transform: translateX(0);
+    }
+  </style>
+</head>
+<body>
+  <button id="trigger">Show Drawer</button>
+  <div class="drawer">
+    <p>Drawer Displayed!</p>
+  </div>
+  <script>
+    const btn = document.querySelector("#trigger");
+    const drawer = document.querySelector(".drawer");
+
+    btn.onclick = () => {
+      drawer.classList.toggle("active");
+    };
+  </script>
+</body>
+</html>
