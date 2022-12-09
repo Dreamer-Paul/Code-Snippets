@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>手机扬声器设备识别和操作</title>
+</head>
+<body>
+  <p>iOS 下无法获取扬声器设备，且连接蓝牙耳机后将自动关联输出到耳机</p>
+  <audio src="https://api.paugram.com/acgm/?list=2&play=true" controls></audio>
+  <ul id="list"></ul>
+  <script>
+    const list = document.querySelector("#list");
+
+    async function getMedia(constraints) {
+      try {
+        await navigator.mediaDevices.getUserMedia(constraints);
+      } catch (e) {
+        console.log(e);
+      }
+
+      try {
+        devices = await navigator.mediaDevices.enumerateDevices();
+
+        devices.map((device) => {
+          const li = document.createElement("li");
+          li.innerHTML = `${device.label} <small>${device.kind}</small>`;
+          list.append(li);
+        });
+
+        console.log(devices);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    getMedia({ audio: true });
+  </script>
+</body>
+</html>

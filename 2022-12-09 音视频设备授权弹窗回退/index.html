@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>音视频设备授权弹窗回退</title>
+</head>
+<body>
+  <script>
+    const getMedia = async () => {
+      const status = {
+        audio: false,
+        video: false,
+      };
+
+      // 如果电脑没有摄像头或麦克风任意一个设备，这里会失败，不弹出授权弹窗
+      try {
+        const all = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+
+        status.audio = true;
+        status.video = true;
+      } catch (e) {
+        console.log(e);
+      }
+
+      // 然后，就可以继续通过单设备类型的方式，重新请求授权
+      try {
+        const audio = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+        status.audio = true;
+      } catch (e) {
+        console.log(e);
+      }
+
+      try {
+        const video = await navigator.mediaDevices.getUserMedia({ video: true });
+
+        status.video = true;
+      } catch (e) {
+        console.log(e);
+      }
+
+      return status;
+    }
+
+    getMedia().then((status) => {
+      console.log(status);
+
+      Object.keys(status).map((item) => {
+        document.write(`${item}: ${status[item]}<br />`);
+      });
+    });
+  </script>
+</body>
+</html>
