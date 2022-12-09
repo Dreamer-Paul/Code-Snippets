@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>html2canvas</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+  <style>
+    #capture iframe {
+      width: 30em;
+      height: 30em;
+    }
+
+    #capture p {
+      color: orange;
+      font-weight: bolder;
+      -webkit-text-stroke: 3px antiquewhite;
+      text-shadow: .5em .5em 0 rgba(0, 0, 0, .1);
+    }
+  </style>
+</head>
+<body>
+  <h1>html2canvas 截图测试，不支持外部 iframe，且必须给 iframe 设置固定宽高</h1>
+  <div id="capture">
+    <iframe src="https://paul.ren" frameborder="0" width="480" height="480"></iframe>
+    <iframe src="iframe.html" frameborder="0" width="480" height="480"></iframe>
+    <p>我是一个艺术文本</p>
+  </div>
+  <p>
+    <button id="btn">截图</button>
+  </p>
+  <script>
+    const btn = document.querySelector("#btn");
+
+    btn.onclick = () => {
+      html2canvas(document.querySelector("#capture"), { useCORS: true, backgroundColor: "#333" }).then((canvas) => {
+        document.body.appendChild(canvas);
+      });
+    }
+  </script>
+</body>
+</html>
