@@ -7,17 +7,66 @@
   <title>剪贴板</title>
 </head>
 <body>
-  <input type="text" id="input" />
-  <button id="btn">Copy</button>
+  <section>
+    <p>复制输入框的文字</p>
+    <input type="text" id="input" />
+    <button id="btn">复制</button>
+  </section>
+  <section>
+    <p>复制预设的文字</p>
+    <button id="btn-preset">复制</button>
+  </section>
+  <section>
+    <p>复制预设的文字，进行了函数嵌套</p>
+    <button id="btn-fc">复制名字</button>
+    <button id="btn-fc-desc">复制详情</button>
+  </section>
   <script>
     const input = document.querySelector("#input");
     const btn = document.querySelector("#btn");
 
+    // 输入框
     btn.onclick = () => {
       if (navigator.clipboard) {
         navigator.clipboard.writeText(input.value);
       }
     };
+
+    // 预设
+    const btnPreset = document.querySelector("#btn-preset");
+    
+    btnPreset.onclick = () => {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText("复制了一段预设的文本");
+      }
+    }
+
+    // 嵌套
+    const btnFc = document.querySelector("#btn-fc");
+    const btnFcDesc = document.querySelector("#btn-fc-desc");
+
+    const copyToClipboard = (text) => {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          console.log("复制成功");
+        }).catch((e) => {
+          console.log(e);
+        });
+      }
+    }
+
+    const copyContent = (type) => {
+      if (type === "name") {
+        copyToClipboard("名字");
+      }
+
+      if (type === "desc") {
+        copyToClipboard("介绍内容");
+      }
+    }
+
+    btnFc.onclick = () => copyContent("name");
+    btnFcDesc.onclick = () => copyContent("desc");
   </script>
 </body>
 </html>
