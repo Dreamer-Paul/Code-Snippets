@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Safari 下载文本显示按钮问题</title>
+</head>
+<body>
+  <div>
+    <textarea id="text" cols="30" rows="10">我是中文！Lorem ipsum dolor sit, amet consectetur adipisicing elit. Numquam quia ratione sit totam voluptatum hic iste! Earum soluta ipsa nostrum eius odio est minus ullam quod vel, placeat amet atque!</textarea>
+  </div>
+  <button id="btn">点击另存为一份文本</button>
+  <button id="btn-blob">点击另存为一份文本（Blob）</button>
+  <script>
+    const obj = {
+      text: document.querySelector("#text"),
+      btn: document.querySelector("#btn"),
+      btnBlob: document.querySelector("#btn-blob"),
+    };
+
+    const getFileName = (format) => {
+      return `text-${parseInt(new Date().getTime() / 1000)}.${format}`;
+    }
+
+    // Data 格式
+    // iOS Safari 禁止使用，提示 Not allowed to navigate top frame to data URL
+    const saveToFile = (text) => {
+      const element = document.createElement('a');
+      element.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(text)}`);
+      element.setAttribute('download', getFileName("txt"));
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+    }
+
+    // Blob 模式
+    const saveToFileBlob = (text) => {
+      const link = document.createElement("a");
+      // Todo: iOS Safari 编码有问题，不能指定成 UTF-8 导致打开就乱码
+      const blob = new Blob([text], { type: "text/plain;charset=UTF-8", encoding: "UTF-8" });
+      // const blob = new Blob([text], { type: "text/plain", encoding: "UTF-8" });
+      // const blob = new Blob([text], { type: "text/plain;charset=UTF-8"});
+
+      link.href = URL.createObjectURL(blob);
+      link.download = getFileName("txt");
+      link.click();
+    }
+
+    obj.btn.onclick = () => {
+      saveToFile(obj.text.value);
+    };
+
+    obj.btnBlob.onclick = () => {
+      saveToFileBlob(obj.text.value);
+    };
+  </script>
+</body>
+</html>
