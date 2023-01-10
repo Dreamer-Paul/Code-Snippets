@@ -1,0 +1,52 @@
+# Code Snippets
+
+代码片段，记录日常编写前端的一些尝试与实践。
+
+## 参与维护
+
+此项目内提供的代码示例，可能会随着浏览器的功能迭代而随之改变，如果和我预期总结的内容不妥，欢迎提出宝贵 Issues，或 PR 提供最新的解决方案，谢谢！
+
+## 内容清单
+
+- 2022-07-22：[Flex 布局](https://dreamer-paul.github.io/Code-Snippets/2022-07-22%20Flex%20布局/)
+  - 一个 100vh 高度的容器，子元素设置溢出滚动
+- 2022-07-22：[获取设备摄像头和麦克风权限](https://dreamer-paul.github.io/Code-Snippets/2022-07-22%20获取设备摄像头和麦克风权限/)
+  - 尝试学习使用 WebRTC API 的第一步
+- 2022-08-17：[iFrame 加载失败的报错](https://dreamer-paul.github.io/Code-Snippets/2022-08-17%20iFrame%20加载失败的报错/)
+  - 引入 iframe 的网页，并不能直接捕获到 iframe 内的报错，除非使用 postMessage 转发
+- 2022-08-17：[iFrame 相互通信](https://dreamer-paul.github.io/Code-Snippets/2022-08-17%20iFrame%20相互通信/)
+  - iframe 子和父的相互通信，使用 postMessage 和 message 事件实现
+- 2022-09-02：[宽高自适应栅格](https://dreamer-paul.github.io/Code-Snippets/2022-09-02%20宽高自适应栅格/)
+  - 公司项目的需求，需要某个子元素保持指定比例，且可根据数量和窗口宽度自动换行，失败的试验品
+- 2022-09-05：[通知功能](https://dreamer-paul.github.io/Code-Snippets/2022-09-05%20通知功能/)
+  - 使用 Notification API 发送系统级通知
+- 2022-09-08：[静态拖拽轮换面板](https://dreamer-paul.github.io/Code-Snippets/2022-09-08%20静态拖拽轮换面板/)
+  - 提供切换 static 和 fixed 两种模式的拖拽面板，想法是取缔原有项目使用的 [React Draggable](https://github.com/react-grid-layout/react-draggable) 库，参考文档感觉这个库的设计并不希望被切换成 static 模式
+  - 目前还是半成品，拖拽逻辑实现完全，但调整宽高方面还没有持续改进
+- 2022-09-23：[获取麦克风音频流并清除小红点](https://dreamer-paul.github.io/Code-Snippets/2022-09-23%20获取麦克风音频流并清除小红点/)
+  - WebRTC 获取音频流时遇到的问题，必须彻底释放才会使得小红点消失
+- 2022-10-10：ESLint 配置
+  - 基于 AirBnb 的实现二次修改调整而成的配置
+- 2022-10-24：[Mac 输入法回车问题](https://dreamer-paul.github.io/Code-Snippets/2022-10-24%20Mac%20输入法回车问题/)
+  - MacOS 中文输入法回车的时候会触发某些不必要的操作，这是目前我发现运行正常的 2 个解决方案
+- 2022-11-27：[带弹出动画的简单抽屉](https://dreamer-paul.github.io/Code-Snippets/2022-11-27%20带弹出动画的简单抽屉/)
+  - 使用原生 JavaScript 编写的简单抽屉，配合 [这篇文章](https://paugram.com/coding/simple-drawer-react-component.html) 阅读更合适
+- 2022-12-07：[截图测试](https://dreamer-paul.github.io/Code-Snippets/2022-12-07%20截图测试/)
+  - 使用 html2canvas 库截图 iframe 内异步渲染的内容，果不其然是无效的，毕竟它的原理是画画，而且外部内容也无法截取
+- 2022-12-09：[剪贴板测试](https://dreamer-paul.github.io/Code-Snippets/2022-12-09%20剪贴板测试/)
+  - 原生方式实现复制内容到剪贴板，包含各种异步逻辑，在 iOS 上均未被阻止，但换成 React 元素 `onClick` 就遇到了问题
+- 2022-12-09：[手机扬声器设备识别和操作](https://dreamer-paul.github.io/Code-Snippets/2022-12-09%20手机扬声器设备识别和操作/)
+  - iOS 环境下无法检测获取扬声器设备，自然也没法实现切换的功能
+- 2022-12-09：[音视频设备授权弹窗回退](https://dreamer-paul.github.io/Code-Snippets/2022-12-09%20音视频设备授权弹窗回退/)
+  - 如果设备上没有视频设备，同时请求音视频会出现异常，需要降级处理
+  - 公司项目使用的声网 SDK，它二次封装过相关逻辑，只要调用失败一次后面单独授权也是有异常的
+- 2022-12-19：[Safari 下载文本显示按钮问题](https://dreamer-paul.github.io/Code-Snippets/2022-12-19%20Safari%20下载文本显示按钮问题/)
+  - 另存为文本内容为 `txt` 文件，发现在 iOS 设备上直接打开会变成乱码展示，目前暂无解决方案
+
+## 开源协议
+
+本项目采用 MIT 开源协议进行授权，如果项目内的代码对你有所帮助，请 `Star` 它以示对我的支持~
+
+如果使用相关内容进行二次创作，请务必标记来源，感谢理解！
+
+同时欢迎前往 [我的小窝](https://paul.ren/donate) 为我提供赞助，谢谢您！
