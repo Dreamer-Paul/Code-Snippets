@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>聚焦到 iframe 窗口内</title>
+  <style>
+    iframe {
+      width: 30em;
+      height: 30em;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <p>
+    <button id="btn">聚焦进去</button>
+  </p>
+  <iframe id="iframe" src="iframe.html"></iframe>
+  <script>
+    const btn = document.querySelector("#btn");
+    const iframe = document.querySelector("#iframe");
+
+    btn.onclick = () => {
+      // OK
+      // iframe.contentDocument.querySelector("textarea").focus();
+
+      // OK
+      // iframe.contentWindow.focusToTextarea();
+
+      // OK
+      iframe.contentWindow.postMessage("focus", "*");
+
+      // 如果点击的元素消失导致 ActiveElement 改变，可能会造成 postMessage 里面的 focus 逻辑失效
+      console.log(document.activeElement);
+    }
+  </script>
+</body>
+</html>
