@@ -45,6 +45,8 @@
 - 2023-01-10：[聚焦到 iFrame 窗口内](https://dreamer-paul.github.io/Code-Snippets/2023-01-10%20聚焦到%20iFrame%20窗口内/)
   - 如何在 `iframe` 外部点击操作，将焦点聚焦到里面的编辑框
   - 如果点击的元素消失，可能会导致 `focus` 效果失效
+- 2023-01-10：[模拟 Enter 事件](https://dreamer-paul.github.io/Code-Snippets/2023-01-10%20模拟%20Enter%20事件/)
+  - 模拟一个 Enter 事件，并传达给使用 `keydown` 事件监听的元素
 
 ## 开源协议
 

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>模拟 Enter</title>
+</head>
+<body>
+  <p>
+    <button id="btn">插入一行文本，模拟 Enter</button>
+  </p>
+  <textarea name="text" id="text" cols="30" rows="10">测试测试</textarea>
+  <script>
+    const btn = document.querySelector("#btn");
+    const textarea = document.querySelector("#text");
+
+    textarea.onkeydown = (ev) => {
+      console.log(ev);
+    }
+
+    const kbde = new KeyboardEvent("keydown", { keyCode: 13, code: "Enter", key: "Enter" });
+
+    btn.onclick = () => {
+      textarea.value = textarea.value + "测试";
+      textarea.focus();
+
+      // 只要对应元素监听了 onkeydown 就可以模拟 Enter
+      textarea.dispatchEvent(kbde);
+
+      // kbde.initKeyboardEvent("keydown", true, true, null)
+    }
+  </script>
+</body>
+</html>
