@@ -35,14 +35,13 @@
         }
 
         const obj = {
-            box: document.querySelector(".float-box"),
+            wrapper: document.querySelector(".float-box"),
             btn: document.querySelector(".float-box button"),
             overlay: document.querySelector(".empty-overlay"),
         };
 
         const state = {
-            moved: false,
-            resizing: false,
+            draggable: false,
         };
 
         const translate = {
@@ -59,50 +58,52 @@
                 ...offset
             };
 
-            state.moved = true;
+            state.draggable = true;
 
-            obj.box.style.top = 0;
-            obj.box.style.left = 0;
+            obj.wrapper.style.top = 0;
+            obj.wrapper.style.left = 0;
 
-            const x = obj.box.offsetLeft + offset.x;
-            const y = obj.box.offsetTop + offset.y;
+            const x = obj.wrapper.offsetLeft + offset.x;
+            const y = obj.wrapper.offsetTop + offset.y;
 
-            obj.box.style.transform = `translate(${x}px, ${y}px)`;
+            obj.wrapper.style.transform = `translate(${x}px, ${y}px)`;
 
             translate.x = x;
             translate.y = y;
 
-            const w = obj.box.clientWidth + offset.width;
-            const h = obj.box.clientHeight + offset.height;
+            const w = obj.wrapper.clientWidth + offset.width;
+            const h = obj.wrapper.clientHeight + offset.height;
 
-            obj.box.style.width = `${w}px`;
-            obj.box.style.height = `${h}px`;
+            obj.wrapper.style.width = `${w}px`;
+            obj.wrapper.style.height = `${h}px`;
 
-            obj.box.style.position = "fixed";
+            obj.wrapper.style.position = "fixed";
         }
 
         const fixedToStatic = () => {
-            state.moved = false;
+            state.draggable = false;
 
-            obj.box.style.width = '';
-            obj.box.style.height = '';
-            obj.box.style.position = '';
-            obj.box.style.transform = '';
+            obj.wrapper.style.top = "";
+            obj.wrapper.style.left = "";
+            obj.wrapper.style.width = '';
+            obj.wrapper.style.height = '';
+            obj.wrapper.style.position = '';
+            obj.wrapper.style.transform = '';
         }
 
         obj.btn.onclick = (ev) => {
             ev.preventDefault();
             ev.stopPropagation();
 
-            if (state.moved) {
+            if (state.draggable) {
                 fixedToStatic();
 
-                obj.box.parentElement.classList.remove("floated");
+                obj.wrapper.parentElement.classList.remove("floated");
             }
             else {
                 staticToFixed({ x: 10, height: -10, width: -10 });
 
-                obj.box.parentElement.classList.add("floated");
+                obj.wrapper.parentElement.classList.add("floated");
             }
         }
 
@@ -113,7 +114,7 @@
             };
 
             const parentUp = (ev) => {
-                obj.box.style.userSelect = "";
+                obj.wrapper.style.userSelect = "";
                 obj.overlay.classList.remove("active");
 
                 document.removeEventListener(eventName.move, parentMove);
@@ -123,8 +124,20 @@
             const parentMove = (ev) => {
                 window.requestAnimationFrame(() => {
                     // 移动的时候拿到的坐标是鼠标的（较大）减去按下前鼠标距离元素 xy 的距离
-                    let x = ev[isMobile ? "layerX" : "clientX"] - location.x;
-                    let y = ev[isMobile ? "layerY" : "clientY"] - location.y;
+                    let x = 0;
+                    let y = 0;
+
+                    if ("touches" in ev) {
+                        x = ev.touches[0].clientX;
+                        y = ev.touches[0].clientY;
+                    }
+                    else {
+                        x = ev.clientX;
+                        y = ev.clientY;
+                    }
+
+                    x = x - location.x;
+                    y = y - location.y;
 
                     if (x <= 0) {
                         x = 0;
@@ -133,8 +146,8 @@
                         y = 0;
                     }
 
-                    const maxX = window.innerWidth - obj.box.clientWidth;
-                    const maxY = window.innerHeight - obj.box.clientHeight;
+                    const maxX = window.innerWidth - obj.wrapper.clientWidth;
+                    const maxY = window.innerHeight - obj.wrapper.clientHeight;
 
                     if (x >= maxX) {
                         x = maxX;
@@ -146,56 +159,77 @@
                     translate.x = x;
                     translate.y = y;
 
-                    obj.box.style.transform = `translate(${x}px, ${y}px)`;
+                    obj.wrapper.style.transform = `translate(${x}px, ${y}px)`;
                 });
             };
 
-            obj.box.addEventListener(eventName.down, (ev) => {
-                if (!state.moved) return;
+            obj.wrapper.addEventListener(eventName.down, (ev) => {
+                if (!state.draggable) return;
 
-                if (ev.target !== obj.box) return;
+                if (ev.target !== obj.wrapper) return;
 
                 ev.preventDefault();
 
-                obj.box.style.userSelect = "none";
+                obj.wrapper.style.userSelect = "none";
                 obj.overlay.classList.add("active");
 
                 // Pio 的解法，使用 translate 就不行了
                 // const { offsetLeft, offsetTop } = ev.currentTarget;
 
+                let x = 0;
+                let y = 0;
+
+                if ("touches" in ev) {
+                    x = ev.touches[0].clientX;
+                    y = ev.touches[0].clientY;
+                }
+                else {
+                    x = ev.clientX;
+                    y = ev.clientY;
+                }
+
                 // 记录按下前的坐标
-                location.x = ev[isMobile ? "layerX" : "clientX"] - translate.x;
-                location.y = ev[isMobile ? "layerY" : "clientY"] - translate.y;
+                location.x = x - translate.x;
+                location.y = y - translate.y;
 
                 document.addEventListener(eventName.move, parentMove);
                 document.addEventListener(eventName.up, parentUp);
             });
 
-            const onresize = () => {
-                if (!state.moved) return;
+            const onResizeFrame = () => {
+                if (!state.draggable) return;
 
-                state.resizing = false;
+                let x = translate.x;
+                let y = translate.y;
+                let w = obj.wrapper.clientWidth;
+                let h = obj.wrapper.clientHeight;
 
-                let w = obj.box.clientWidth;
-                let h = obj.box.clientHeight;
-
-                if (w + translate.x >= window.innerWidth) {
-                    w = window.innerWidth - translate.x;
-                }
-                if (h + translate.y >= window.innerHeight) {
-                    h = window.innerHeight - translate.y;
+                if (w >= window.innerWidth) {
+                    w = window.innerWidth;
                 }
 
-                obj.box.style.width = `${w}px`;
-                obj.box.style.height = `${h}px`;
+                if (h >= window.innerHeight) {
+                    h = window.innerHeight;
+                }
+
+                if ((x + w) >= window.innerWidth) {
+                    x = window.innerWidth - w;
+                }
+
+                if ((y + h) >= window.innerHeight) {
+                    y = window.innerHeight - h;
+                }
+
+                obj.wrapper.style.width = `${w}px`;
+                obj.wrapper.style.height = `${h}px`;
+                obj.wrapper.style.transform = `translate(${x}px, ${y}px)`;
+
+                translate.x = x;
+                translate.y = y;
             };
 
             window.onresize = () => {
-                if (state.resizing) return;
-
-                state.resizing = true;
-
-                window.requestAnimationFrame(onresize);
+                window.requestAnimationFrame(onResizeFrame);
             };
         }
 
