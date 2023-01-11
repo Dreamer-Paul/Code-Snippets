@@ -44,6 +44,7 @@ body{
 }
 
 .float-box{
+    height: 10em;
     resize: both;
     overflow: hidden;
     padding: 1em;

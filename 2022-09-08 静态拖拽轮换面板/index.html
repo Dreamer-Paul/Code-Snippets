@@ -16,12 +16,21 @@
                 <div class="box-content">
                     <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi veniam ex aut perspiciatis exercitationem ad laborum nesciunt numquam harum quia. Veniam aperiam maxime iste ex omnis sint velit perferendis labore.</p>
                     <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maiores voluptates excepturi architecto, ab commodi quibusdam nostrum aut et porro quidem aliquam exercitationem minus quia libero laboriosam delectus blanditiis culpa corporis!</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum esse nesciunt adipisci, architecto minima facilis animi fugit assumenda explicabo optio molestias numquam. Expedita excepturi perspiciatis aspernatur vel. Provident, corporis error!</p>
                 </div>
                 <span class="resize-control"></span>
             </div>
         </div>
     </main>
     <script>
+        const isMobile = navigator.userAgent.toLocaleLowerCase().includes("mobi");
+
+        const eventName = {
+            up: isMobile ? "touchend" : "mouseup",
+            down: isMobile ? "touchstart" : "mousedown",
+            move: isMobile ? "touchmove" : "mousemove"
+        }
+
         const obj = {
             box: document.querySelector(".float-box"),
             btn: document.querySelector(".float-box button")
@@ -102,14 +111,14 @@
             const parentUp = (ev) => {
                 obj.box.style.userSelect = '';
 
-                document.removeEventListener("mousemove", parentMove);
-                document.removeEventListener("mouseup", parentUp);
+                document.removeEventListener(eventName.move, parentMove);
+                document.removeEventListener(eventName.up, parentUp);
             };
 
             const parentMove = (ev) => {
                 // 移动的时候拿到的坐标是鼠标的（较大）减去按下前鼠标距离元素 xy 的距离
-                let x = ev.clientX - location.x;
-                let y = ev.clientY - location.y;
+                let x = ev[isMobile ? "layerX" : "clientX"] - location.x;
+                let y = ev[isMobile ? "layerY" : "clientY"] - location.y;
 
                 if (x <= 0) {
                     x = 0;
@@ -134,10 +143,12 @@
                 obj.box.style.transform = `translate(${x}px, ${y}px)`;
             };
 
-            obj.box.onmousedown = (ev) => {
+            obj.box.addEventListener(eventName.down, (ev) => {
                 if (!state.moved) return;
 
                 if (ev.target !== obj.box) return;
+
+                ev.preventDefault();
 
                 obj.box.style.userSelect = 'none';
 
@@ -145,12 +156,12 @@
                 // const { offsetLeft, offsetTop } = ev.currentTarget;
 
                 // 记录按下前的坐标
-                location.x = ev.clientX - translate.x;
-                location.y = ev.clientY - translate.y;
+                location.x = ev[isMobile ? "layerX" : "clientX"] - translate.x;
+                location.y = ev[isMobile ? "layerY" : "clientY"] - translate.y;
 
-                document.addEventListener("mousemove", parentMove);
-                document.addEventListener("mouseup", parentUp);
-            };
+                document.addEventListener(eventName.move, parentMove);
+                document.addEventListener(eventName.up, parentUp);
+            });
 
             const onresize = () => {
                 if (!state.moved) return;
