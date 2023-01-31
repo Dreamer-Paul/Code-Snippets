@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>音视频设备授权等级降级检测</title>
+  <style>
+    [id] {
+      padding: 1em;
+      border: 2px solid salmon;
+      margin-bottom: 1em;
+    }
+
+    [id] p {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <p>「音视频设备授权弹窗回退」这个 Demo 依旧存在欠缺，系统授权和浏览器授权，两者检测的情况是不一致的。</p>
+  <div id="error"></div>
+  <div id="result"></div>
+  <script>
+    const $$ = (s) => document.querySelector(s);
+
+    const el = {
+      error: $$("#error"),
+      result: $$("#result")
+    };
+
+    const getMedia = async () => {
+      const status = {
+        audio: false,
+        video: false,
+      };
+
+      if (!navigator.mediaDevices) {
+        el.error.innerHTML += `<p>navigator.mediaDevices 为空，可能是触发了浏览器的安全机制</p>`;
+        return;
+      }
+
+      // 如果电脑没有摄像头或麦克风任意一个设备，这里会失败，不弹出授权弹窗
+      try {
+        const all = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+
+        status.audio = true;
+        status.video = true;
+      } catch (e) {
+        el.error.innerHTML += `<p>麦克风+摄像头同时获取错误：${e}</p>`;
+      }
+
+      // 然后，就可以继续通过单设备类型的方式，重新请求授权
+      try {
+        const audio = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+        status.audio = true;
+      } catch (e) {
+        el.error.innerHTML += `<p>麦克风获取错误：${e}</p>`;
+      }
+
+      try {
+        const video = await navigator.mediaDevices.getUserMedia({ video: true });
+
+        status.video = true;
+      } catch (e) {
+        el.error.innerHTML += `<p>摄像头获取错误：${e}</p>`;
+      }
+
+      // 浏览器未授予权限：NotAllowedError: Permission denied
+      // 系统未授予权限：NotReadableError: Could not start video source
+      // 未找到设备：NotFoundError: Requested device not found（无设备的情况下并不知道前两个的情况）
+
+      return status;
+    }
+
+    getMedia().then((status) => {
+      console.log(status);
+
+      Object.keys(status).map((item) => {
+        el.result.innerHTML += `<p>${item}：${status[item]}</p>`;
+      });
+    });
+  </script>
+</body>
+</html>

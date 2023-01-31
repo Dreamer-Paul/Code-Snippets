@@ -47,6 +47,8 @@
   - 如果点击的元素消失，可能会导致 `focus` 效果失效
 - 2023-01-10：[模拟 Enter 事件](https://dreamer-paul.github.io/Code-Snippets/2023-01-10%20模拟%20Enter%20事件/)
   - 模拟一个 Enter 事件，并传达给使用 `keydown` 事件监听的元素
+- 2023-01-31：[音视频设备授权等级降级检测](https://dreamer-paul.github.io/Code-Snippets/2023-01-31%20音视频设备授权等级降级检测/)
+  - 继「音视频设备授权弹窗回退」Demo 后，发现设备获取失败的错误原因有三类，需要分别给予用户不同的提示
 
 ## 开源协议
 
