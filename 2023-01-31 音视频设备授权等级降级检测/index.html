@@ -54,6 +54,10 @@
       try {
         const audio = await navigator.mediaDevices.getUserMedia({ audio: true });
 
+        // console.log(audio)
+
+        // window.aaa = audio;
+
         status.audio = true;
       } catch (e) {
         el.error.innerHTML += `<p>麦克风获取错误：${e}</p>`;
@@ -61,6 +65,8 @@
 
       try {
         const video = await navigator.mediaDevices.getUserMedia({ video: true });
+
+        // console.log(video)
 
         status.video = true;
       } catch (e) {

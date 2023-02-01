@@ -34,6 +34,11 @@
         // 只要 stop 理论上就会停止占用麦克风设备了
         // stream.removeTrack(item);
       });
+
+      // ! 如果想修复 clone 的问题，复制前的源也停止掉就好了
+      stream.getTracks().forEach(item => {
+        item.stop();
+      });
     }
 
     async function getMedia(constraints) {
@@ -51,6 +56,7 @@
         audioTracks.forEach(item => {
           // newStream.addTrack(item);
           // ! 只要使用 clone 方法，就会导致 stop 流时，浏览器依旧显示小红点（麦克风设备使用中）
+          // ! 可以这么理解，如果不 clone 的话，实际上也会占用，需要 stop 掉 stream 下的所有 track
           newStream.addTrack(item.clone());
         });
 
