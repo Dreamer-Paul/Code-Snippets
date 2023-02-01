@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>录制屏幕授权</title>
+</head>
+<body>
+  <p>浏览器内部录屏不受影响，系统关闭了浏览器的屏幕录制权限会导致此处不可用，且浏览器并没有对应图标表示。</p>
+  <button id="btn">点击弹出录屏选项</button>
+  <script>
+    const btn = document.querySelector("#btn");
+    const constraints = {
+      audio: true,
+      video: true
+    };
+
+    btn.onclick = async () => {
+      try {
+        const video = await navigator.mediaDevices.getDisplayMedia(constraints);
+      } catch (e) {
+        // 浏览器没给权限：DOMException: Permission denied
+        // 系统没给权限：DOMException: Permission denied by system
+        console.log(e);
+      }
+    }
+  </script>
+</body>
+</html>
