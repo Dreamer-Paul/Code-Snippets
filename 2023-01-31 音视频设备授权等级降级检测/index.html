@@ -21,12 +21,14 @@
   <p>「音视频设备授权弹窗回退」这个 Demo 依旧存在欠缺，系统授权和浏览器授权，两者检测的情况是不一致的。</p>
   <div id="error"></div>
   <div id="result"></div>
+  <div id="devices"></div>
   <script>
     const $$ = (s) => document.querySelector(s);
 
     const el = {
       error: $$("#error"),
-      result: $$("#result")
+      result: $$("#result"),
+      devices: $$("#devices")
     };
 
     const getMedia = async () => {
@@ -54,10 +56,6 @@
       try {
         const audio = await navigator.mediaDevices.getUserMedia({ audio: true });
 
-        // console.log(audio)
-
-        // window.aaa = audio;
-
         status.audio = true;
       } catch (e) {
         el.error.innerHTML += `<p>麦克风获取错误：${e}</p>`;
@@ -66,28 +64,50 @@
       try {
         const video = await navigator.mediaDevices.getUserMedia({ video: true });
 
-        // console.log(video)
-
         status.video = true;
       } catch (e) {
         el.error.innerHTML += `<p>摄像头获取错误：${e}</p>`;
       }
 
-      // 浏览器未授予权限：NotAllowedError: Permission denied
-      // Safari 浏览器未授予权限：NotAllowedError: The request is not allowed by the user agent or the platform in the current context, possibly because the user denied permission.
-      // Mac 系统未授予权限：NotReadableError: Could not start video source
-      // Windows 系统未授予权限：NotAllowedError: Permission denied by system
-      // 未找到设备：NotFoundError: Requested device not found（无设备的情况下并不知道前两个的情况）
+      // 浏览器未授予权限：。
+      // NotAllowedError: Permission denied
+      //
+      // Safari 浏览器未授予权限（或者是 iOS 未给第三方软件设置权限）：
+      // NotAllowedError: The request is not allowed by the user agent or the platform in the current context, possibly because the user denied permission.
+      //
+      // Mac 系统未授予权限（Chrome）：
+      // NotReadableError: Could not start video source
+      //
+      // Windows 系统未授予权限
+      // NotAllowedError: Permission denied by system
+      //
+      // 未找到设备：
+      // NotFoundError: Requested device not found（无设备的情况下并不知道前两个的情况）
 
       return status;
     }
 
-    getMedia().then((status) => {
-      console.log(status);
+    const getDevices = async () => {
+      try {
+        devices = await navigator.mediaDevices.enumerateDevices();
 
+        devices.map((device) => {
+          el.devices.innerHTML += `<p>${device.label} <small>${device.kind}</small></p>`;
+        });
+
+        return devices;
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    getMedia().then((status) => {
       Object.keys(status).map((item) => {
         el.result.innerHTML += `<p>${item}：${status[item]}</p>`;
       });
+
+      // 必须请求设备成功后再请求设备信息，否则将会得到空的 deviceId
+      window.devices = getDevices();
     });
   </script>
 </body>
