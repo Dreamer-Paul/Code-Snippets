@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>切换 iFrame 的容器是否会导致刷新</title>
+  <style>
+    .wrap {
+      padding: 1em;
+      margin-bottom: 1em;
+      border: 2px solid blueviolet;
+    }
+
+    #b {
+      border-color: deeppink;
+    }
+  </style>
+</head>
+<body>
+  <p>答案是会，单纯的生成一个 iFrame 元素，修改其父容器，必然会刷新内容。有什么方法可以让它始终处于一个状态呢？</p>
+  <div class="wrap" id="a"></div>
+  <div class="wrap" id="b"></div>
+  <p>
+    <button id="btn">切换容器</button>
+  </p>
+  <script>
+    const el = {
+      wrapA: document.querySelector("#a"),
+      wrapB: document.querySelector("#b"),
+      btn: document.querySelector("#btn")
+    };
+
+    const iframe = document.createElement("iframe");
+    iframe.src = "iframe.html";
+    el.wrapA.appendChild(iframe);
+
+    btn.onclick = () => {
+      if (el.wrapA.hasChildNodes(iframe)) {
+        el.wrapB.appendChild(iframe);
+      }
+      else {
+        el.wrapA.appendChild(iframe);
+      }
+    }
+  </script>
+</body>
+</html>

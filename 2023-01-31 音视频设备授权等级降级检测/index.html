@@ -69,16 +69,16 @@
         el.error.innerHTML += `<p>摄像头获取错误：${e}</p>`;
       }
 
-      // 浏览器未授予权限：。
+      // 浏览器未授予权限：
       // NotAllowedError: Permission denied
       //
       // Safari 浏览器未授予权限（或者是 iOS 未给第三方软件设置权限）：
       // NotAllowedError: The request is not allowed by the user agent or the platform in the current context, possibly because the user denied permission.
       //
-      // Mac 系统未授予权限（Chrome）：
+      // Mac 系统未授予浏览器权限（Chrome）：
       // NotReadableError: Could not start video source
       //
-      // Windows 系统未授予权限
+      // Windows 系统未授予浏览器权限
       // NotAllowedError: Permission denied by system
       //
       // 未找到设备：
