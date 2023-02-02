@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>切换扬声器功能</title>
+</head>
+<body>
+  <p>切换单个音频输出到指定的设备，也就是说有多少个音频就需要分别切换多少次。</p>
+  <audio id="audio" src="music.mp3" controls></audio>
+  <audio id="audio2" src="https://api.paugram.com/acgm/?play=true&list=2" controls></audio>
+  <p>
+    <select id="select"></select>
+  </p>
+  <script>
+    // See: https://webrtc.github.io/samples/src/content/devices/input-output/
+    // See: https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/setSinkId
+    const el = {
+      audio: document.querySelector("#audio"),
+      audio2: document.querySelector("#audio2"),
+      select: document.querySelector("#select"),
+    }
+
+    const getOutputDevices = async () => {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const audioDevice = devices.filter((device) => device.kind === "audiooutput");
+
+      return audioDevice;
+    }
+
+    getOutputDevices().then((devices) => {
+      devices.forEach(item => {
+        const opt = document.createElement("option");
+        opt.innerText = item.label;
+        opt.value = item.deviceId;
+
+        el.select.append(opt);
+      });
+    });
+
+    el.select.onchange = (ev) => {
+      console.log("修改输出设备为", ev.target.value);
+
+      try {
+        el.audio.setSinkId(ev.target.value);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  </script>
+</body>
+</html>
