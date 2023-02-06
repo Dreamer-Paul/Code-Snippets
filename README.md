@@ -46,11 +46,17 @@
   - 如何在 `iframe` 外部点击操作，将焦点聚焦到里面的编辑框
   - 如果点击的元素消失，可能会导致 `focus` 效果失效
 - 2023-01-10：[模拟 Enter 事件](https://dreamer-paul.github.io/Code-Snippets/2023-01-10%20模拟%20Enter%20事件/)
+- 2023-01-13：[输入框透明样式问题](https://dreamer-paul.github.io/Code-Snippets/2023-01-13%20输入框透明样式问题/)
+  - 苹果设备 Safari 上输入框的奇怪现象，塌陷效果竟然会和背景颜色有关系
   - 模拟一个 Enter 事件，并传达给使用 `keydown` 事件监听的元素
 - 2023-01-31：[音视频设备授权等级降级检测](https://dreamer-paul.github.io/Code-Snippets/2023-01-31%20音视频设备授权等级降级检测/)
   - 继「音视频设备授权弹窗回退」Demo 后，发现设备获取失败的错误原因有三类，需要分别给予用户不同的提示
-- 2023-02-01：[录制屏幕授权](https://dreamer-paul.github.io/Code-Snippets/2023-02-01%录制屏幕授权/)
+- 2023-02-01：[录制屏幕授权](https://dreamer-paul.github.io/Code-Snippets/2023-02-01%20录制屏幕授权/)
   - MacOS 下浏览器需要提供对应的录制权限，用户取消和系统无权限分别会得到两条不同的错误提示
+- 2023-02-02：[切换 iFrame 的容器是否会导致刷新](https://dreamer-paul.github.io/Code-Snippets/2023-02-02%20切换%20iFrame%20的容器是否会导致刷新/)
+  - 答案是不能，DOM 刷新了意味着 iFrame 内部必须被刷新一次，除了使用 fixed 还有什么别的方法了呢？
+- 2023-02-02：[切换扬声器功能](https://dreamer-paul.github.io/Code-Snippets/2023-02-02%20切换扬声器功能/)
+  - 可以切换扬声器，但只能针对每一个媒体对象做操作
 
 ## 开源协议
 

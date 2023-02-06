@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>输入框透明样式问题</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    img {
+      max-width: 30%;
+      border: 1px solid #bbb;
+    }
+
+    .grid {
+      gap: 1em;
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 45em;
+    }
+
+    .wrapper {
+      width: 20em;
+      padding: 1em;
+      border: 1px solid #bbb;
+    }
+
+    small {
+      display: block;
+      margin-bottom: 1em;
+    }
+
+    input {
+      width: 100%;
+      display: block;
+      padding: .5em;
+      font: inherit;
+      border: 1px solid #eee;
+      background-color: transparent;
+      /* appearance: none; */
+    }
+
+    input.has-color {
+      background-color: lightskyblue;
+    }
+
+    input.appearance-none {
+      appearance: none;
+    }
+
+    input::-webkit-date-and-time-value {
+      height: 1.5em;
+    }
+  </style>
+</head>
+<body>
+  <p>如果你在使用 iOS、iPadOS 的 Safari 浏览器，会发现没有文字的 date 输入框会呈现出如图所示的塌陷现象，非常奇特！</p>
+  <p>而且这个现象还会因设置背景颜色的不同导致差异 😱</p>
+  <p>
+    <a href="screenshot.jpg" target="_blank">
+      <img src="screenshot.jpg" alt="截图" />
+    </a>
+  </p>
+  <div class="grid">
+    <div class="wrapper">
+      <small>背景颜色：transparent</small>
+      <input type="text" />
+      <input type="date" />
+      <input type="datetime-local" />
+    </div>
+    <div class="wrapper">
+      <small>背景颜色：lightskyblue</small>
+      <input type="text" class="has-color" />
+      <input type="date" class="has-color" />
+      <input type="datetime-local" class="has-color" />
+    </div>
+    <div class="wrapper">
+      <small>背景颜色：transparent，有预设内容</small>
+      <input type="text" />
+      <input type="date" value="2023-01-14" />
+      <input type="datetime-local" value="2023-01-14 00:00:00" />
+    </div>
+    <div class="wrapper">
+      <small>背景颜色：lightskyblue</small>
+      <input type="text" class="has-color" />
+      <input type="date" class="has-color" value="2023-01-14" />
+      <input type="datetime-local" class="has-color" value="2023-01-14 00:00:00" />
+    </div>
+    <div class="wrapper">
+      <small>背景颜色：transparent，设置 appearance: none</small>
+      <input type="text" class="appearance-none" />
+      <input type="date" class="appearance-none" />
+      <input type="datetime-local" class="appearance-none" />
+    </div>
+    <div class="wrapper">
+      <small>背景颜色：lightskyblue，设置 appearance: none</small>
+      <input type="text" class="has-color appearance-none" />
+      <input type="date" class="has-color appearance-none" />
+      <input type="datetime-local" class="has-color appearance-none" />
+    </div>
+  </div>
+</body>
+</html>
