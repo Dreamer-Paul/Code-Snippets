@@ -23,6 +23,13 @@
     }
 
     const getOutputDevices = async () => {
+      try {
+        await navigator.mediaDevices.getUserMedia({ audio: true });
+      }
+      catch (e) {
+        console.log(e.message);
+      }
+
       const devices = await navigator.mediaDevices.enumerateDevices();
       const audioDevice = devices.filter((device) => device.kind === "audiooutput");
 
