@@ -5,8 +5,29 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>剪贴板</title>
+  <style>
+    section:first-of-type {
+      margin-top: 5em;
+    }
+
+    section {
+      margin-bottom: 2em;
+    }
+
+    blockquote {
+      opacity: .5;
+      margin-left: 0;
+      padding: .5em 1em;
+      border-left: 2px solid currentColor;
+    }
+  </style>
 </head>
 <body>
+  <p>延迟时间设置成 5000（5 秒），大概率会让浏览器弹出剪贴板授权，如果是 iOS 则有可能直接禁止复制。</p>
+  <section>
+    <p>修改模拟异步的时间</p>
+    <input id="delay" type="number" min="0" value="500" />
+  </section>
   <section>
     <p>复制输入框的文字</p>
     <input type="text" id="input" />
@@ -14,22 +35,31 @@
   </section>
   <section>
     <p>复制预设的文字</p>
+    <blockquote>复制了一段预设的文本</blockquote>
     <button id="btn-preset">复制</button>
   </section>
   <section>
     <p>复制预设的文字，进行了函数嵌套</p>
+    <blockquote>名字、介绍内容</blockquote>
     <button id="btn-fc">复制名字</button>
     <button id="btn-fc-desc">复制详情</button>
   </section>
   <section>
     <p>复制预设的文字，但是异步获取的（Promise）</p>
+    <blockquote>异步 Promise 获取的文字内容</blockquote>
     <button id="btn-promise">复制</button>
   </section>
   <section>
     <p>复制预设的文字，但是异步获取的（Await）</p>
+    <blockquote>异步 Await 获取的文字内容</blockquote>
     <button id="btn-await">复制</button>
   </section>
+  <section>
+    <p>复制一段真正来自异步接口的信息（Promise）</p>
+    <button id="btn-api">复制</button>
+  </section>
   <script>
+    const delayInput = document.querySelector("#delay");
     const input = document.querySelector("#input");
     const btn = document.querySelector("#btn");
 
@@ -58,7 +88,8 @@
         navigator.clipboard.writeText(text).then(() => {
           console.log("复制成功");
         }).catch((e) => {
-          console.log("复制失败", e);
+          console.log(e);
+          alert(`复制失败：${e.name}: ${e.message}`);
         });
       }
     }
@@ -80,10 +111,12 @@
     const btnPromise = document.querySelector("#btn-promise");
 
     btnPromise.onclick = () => {
+      const delay = Number(delayInput.value);
+
       new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve("异步 Promise 获取的文字内容");
-        }, 500);
+        }, delay);
       }).then((text) => {
         copyToClipboard(text);
       });
@@ -93,13 +126,26 @@
     const btnAwait = document.querySelector("#btn-await");
 
     btnAwait.onclick = async () => {
+      const delay = Number(delayInput.value);
+
       const text = await new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve("异步 Await 获取的文字内容");
-        }, 500);
+        }, delay);
       });
 
       copyToClipboard(text);
+    }
+
+    // 真实的 API 数据
+    const btnApi = document.querySelector("#btn-api");
+
+    btnApi.onclick = () => {
+      fetch("https://api.paugram.com/acgm").then((res) => {
+        return res.json();
+      }).then((res) => {
+        copyToClipboard(res.title);
+      });
     }
   </script>
 </body>
