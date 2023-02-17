@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新窗口打开被浏览器阻止</title>
+  <style>
+    section {
+      margin-top: 3em;
+    }
+  </style>
+</head>
+<body>
+  <p>和剪贴板复制的 Demo 类似，只要延迟时间设置到 5000（5 秒），必然会出现新开窗口被浏览器拦截的情况。</p>
+  <section>
+    <p>延迟时间设置</p>
+    <input id="delay" type="number" min="1" value="5000" />
+    <button id="btn">点击新开一个窗口</button>
+  </section>
+  <script>
+    const delayInput = document.querySelector("#delay");
+    const btn = document.querySelector("#btn");
+
+    btn.onclick = () => {
+      const delay = Number(delayInput.value);
+
+      setTimeout(() => {
+        window.open("https://paul.ren");
+      }, delay);
+    }
+  </script>
+</body>
+</html>
