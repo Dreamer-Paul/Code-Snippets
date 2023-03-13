@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>自适应等比缩放</title>
+  <style>
+    .mobile-wrapper {
+      color: #fff;
+      height: 40em;
+      display: flex;
+      max-width: 25em;
+      text-align: center;
+      flex-direction: column;
+      background-color: brown;
+    }
+
+    .wrapper {
+      flex: 1;
+      padding: 1em;
+      display: flex;
+      min-height: 0;
+      flex-direction: column;
+    }
+    
+    .action {
+      height: 2em;
+      flex: 0 0 2em;
+      overflow: hidden;
+    }
+
+    .action.active {
+      height: 9em;
+      flex: 0 0 9em;
+    }
+
+    .avatar {
+      margin: auto;
+      min-height: 0;
+      background-color: #ffcdcd;
+    }
+
+    .avatar span {
+      width: 100%;
+      display: block;
+      color: brown;
+      padding: 2em;
+      margin: auto;
+      aspect-ratio: 1 / 1;
+      box-sizing: border-box;
+      background-color: #ffcdcd;
+    }
+
+    .avatar img {
+      height: 100%;
+      width: auto;
+      max-width: 100%;
+      vertical-align: middle;
+      background-color: #fff;
+    }
+
+    .text {
+      height: 10em;
+      flex: 0 0 10em;
+      overflow: auto;
+    }
+  </style>
+</head>
+<body>
+  <p>使用图片占位，在 Chrome 下正常，iOS Safari 下不正常</p>
+  <ul>
+    <li><a href="index.html">自动 margin</a></li>
+    <li><a href="absolute.html">相对定位</a></li>
+  </ul>
+  <div class="mobile-wrapper">
+    <div class="wrapper">
+      <div class="action">
+        Action
+      </div>
+      <div class="avatar">
+        <!-- <span>Paul</span> -->
+        <img src="transparent.png" />
+      </div>
+      <div class="text"></div>
+    </div>
+  </div>
+  <p>
+    <button id="addText">增加文字</button>
+    <button id="toggleAction">伸缩顶部菜单</button>
+  </p>
+  <script>
+    const $$ = (s) => document.querySelector(s);
+
+    const el = {
+      addBtn: $$("#addText"),
+      actionBtn: $$("#toggleAction"),
+      text: $$(".text"),
+      action: $$(".action")
+    };
+
+    el.addBtn.onclick = () => {
+      const p = document.createElement("p");
+      p.innerHTML = new Date().getTime();
+
+      el.text.appendChild(p);
+    }
+
+    el.actionBtn.onclick = () => {
+      el.action.classList.toggle("active");
+    }
+  </script>
+</body>
+</html>
