@@ -57,6 +57,12 @@
   - 答案是不能，DOM 刷新了意味着 iFrame 内部必须被刷新一次，除了使用 fixed 还有什么别的方法了呢？
 - 2023-02-02：[切换扬声器功能](https://dreamer-paul.github.io/Code-Snippets/2023-02-02%20切换扬声器功能/)
   - 可以切换扬声器，但只能针对每一个媒体对象做操作
+- 2023-02-17：[新窗口打开被浏览器阻止](https://dreamer-paul.github.io/Code-Snippets/2023-02-17%20新窗口打开被浏览器阻止/)
+  - 触发浏览器打开新窗口会被阻止的场景
+- 2023-03-03：[iOS Safari 无声音问题排查](https://dreamer-paul.github.io/Code-Snippets/2023-03-03%20iOS%20Safari%20无声音问题排查/)
+  - 记录 iOS 15 Safari 没声音的一些问题
+- 2023-03-13：[自适应等比缩放](https://dreamer-paul.github.io/Code-Snippets/2023-03-13%20自适应等比缩放/)
+  - 自适应根据 Flex 高度实现等比缩放的块元素
 
 ## 开源协议
 

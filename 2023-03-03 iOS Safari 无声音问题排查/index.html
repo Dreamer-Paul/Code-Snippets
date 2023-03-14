@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iOS Safari 无声音问题排查</title>
+</head>
+<body>
+  <audio src="https://api.paugram.com/netease?id=1697553&play=true" controls></audio>
+  <audio id="input" controls></audio>
+  <p>
+    <button id="apply">申请权限</button>
+    <button id="copy">复制流</button>
+    <button id="clean">回收设备</button>
+  </p>
+  <h4>问题 1：奇怪的扬声器规则</h4>
+  <p>先播放第一个音频，再点击「申请权限」，iOS 15 将会以听筒形式播放音乐。</p>
+  <p>先点击「申请权限」，再播放第一个音频，iOS 15 将会以外放形式播放音乐。</p>
+  <h4>问题 2：</h4>
+  <p>先点击「申请权限」，再点击「复制流」，再点击「申请权限」，此时 iOS 将自动回收此前的流，导致无声音外放。如果传了流，则大概率被强制断开。</p>
+  <p>如果使用 PC 重复此步骤，则音频流正常播放。</p>
+  <script>
+    const el = {
+      audio: document.querySelector("#input"),
+      apply: document.querySelector("#apply"),
+      copy: document.querySelector("#copy"),
+      clean: document.querySelector("#clean")
+    };
+
+    let stream;
+    let newStream = new MediaStream();
+
+    const apply = async () => {
+      console.log("Apply");
+
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+      }
+      catch (e) {
+        console.log(e.message);
+      }
+    };
+
+    const copy = async () => {
+      const tracks = stream.getAudioTracks();
+
+      if (!newStream) {
+        newStream = new MediaStream();
+      }
+
+      if (tracks[0]) {
+        newStream.addTrack(tracks[0].clone());
+      }
+
+      el.audio.srcObject = newStream;
+      el.audio.play();
+    }
+
+    const clean = async () => {
+      console.log("Clean");
+
+      stream.getTracks().forEach((track) => {
+        track.stop();
+      });
+
+      stream = undefined;
+
+      newStream.getTracks().forEach((track) => {
+        track.stop();
+      });
+
+      newStream = undefined;
+    };
+
+    el.apply.onclick = apply;
+    el.copy.onclick = copy;
+    el.clean.onclick = clean;
+  </script>
+</body>
+</html>
