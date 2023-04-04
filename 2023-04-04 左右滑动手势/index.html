@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>左右滑动手势</title>
+  <style>
+    * {
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    :root, body {
+      height: 100%;
+    }
+
+    body {
+      padding: 2em;
+    }
+
+    .container {
+      display: flex;
+      height: 100%;
+      color: #fff;
+      background-color: dodgerblue;
+    }
+
+    .container span {
+      opacity: .5;
+      margin: auto;
+      font-size: 10vw;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <span>滑动 Demo</span>
+  </div>
+  <script>
+    const isMobile = navigator.userAgent.toLocaleLowerCase().includes("mobi");
+
+    const eventName = {
+      up: isMobile ? "touchend" : "mouseup",
+      down: isMobile ? "touchstart" : "mousedown"
+    };
+
+    const el = {
+      container: document.querySelector(".container"),
+      span: document.querySelector(".container span")
+    };
+
+    const position = {
+      down: -1,
+      up: -1,
+    }
+
+    const actions = {
+      onDown: (ev) => {
+        if ("touches" in ev) {
+          position.down = ev.touches[0].clientX;
+        }
+        else {
+          position.down = ev.clientX;
+        }
+      },
+      onUp: (ev) => {
+        if (!("touches" in ev)) {
+          position.up = ev.clientX;
+        }
+
+        const offset = el.container.clientWidth / 6;
+
+        // 右往左滑，往右翻
+        if (position.down > position.up) {
+          if (position.down - position.up < offset) {
+            console.log("无效操作");
+            return;
+          }
+
+          el.span.innerText = "往右翻";
+        }
+        else if (position.down < position.up) {
+          if (position.up - position.down < offset) {
+            console.log("无效操作");
+            return;
+          }
+
+          el.span.innerText = "往左翻";
+        }
+      },
+      // 触摸事件专属
+      onMove: (ev) => {
+        if ("touches" in ev) {
+          position.up = ev.touches[0].clientX;
+        }
+      }
+    }
+
+    const init = () => {
+      el.container.addEventListener(eventName.down, actions.onDown);
+      el.container.addEventListener(eventName.up, actions.onUp);
+
+      if (isMobile) {
+        el.container.addEventListener("touchmove", actions.onMove);
+      }
+    }
+
+    const destroy = () => {
+      el.container.removeEventListener(eventName.down, actions.onDown);
+      el.container.removeEventListener(eventName.up, actions.onUp);
+
+      if (isMobile) {
+        el.container.removeEventListener("touchmove", actions.onMove);
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>

@@ -63,6 +63,8 @@
   - 记录 iOS 15 Safari 没声音的一些问题
 - 2023-03-13：[自适应等比缩放](https://dreamer-paul.github.io/Code-Snippets/2023-03-13%20自适应等比缩放/)
   - 自适应根据 Flex 高度实现等比缩放的块元素
+- 2023-04-04：[左右滑动手势](https://dreamer-paul.github.io/Code-Snippets/2023-04-04%20左右滑动手势/)
+  - 根据设备类型绑定事件，实现左右滑动手势执行操作
 
 ## 开源协议
 
