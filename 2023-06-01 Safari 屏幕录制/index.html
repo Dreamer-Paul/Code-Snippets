@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Safari 屏幕录制</title>
+  <style>
+    video { width: 50% }
+  </style>
+</head>
+<body>
+  <p>Safari 浏览器下，如果先请求异步操作（超过 1000 ms）后再获取视频流，会导致无法成功获取，Chrome 则没有这个闲置。</p>
+  <p>
+    <label for="delay-time">延迟时间(毫秒):</label>
+    <input type="number" id="delay-time" name="delay-time" value="500">
+  </p>
+  <p>
+    <button id="sleepFirst">分享屏幕（先异步延迟，再获取流）</button>
+    <button id="streamFirst">分享屏幕（先获取流，再异步延迟展示）</button>
+    <button id="stop">停止共享</button>
+  </p>
+  <video id="video"></video>
+  <script>
+    const btn = document.getElementById("sleepFirst");
+    const btnStream = document.getElementById("streamFirst");
+    const btnStop = document.getElementById("stop");
+
+    const video = document.getElementById("video");
+    const input = document.getElementById("delay-time");
+    video.controls = true;
+    video.autoplay = true;
+
+    const sleep = (time) => new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, time);
+    });
+
+    let streamObj;
+
+    btn.onclick = () => {
+      sleep(input.value).then(() => {
+        console.log("Waited for", input.value, "milliseconds.");
+
+        // 获取屏幕分享
+        navigator.mediaDevices.getDisplayMedia({ video: true }).then((stream) => {
+          streamObj = stream;
+          console.log("Stream geted");
+          video.srcObject = stream;
+          video.play();
+        }).catch((error) => {
+          console.error('Error accessing media devices.', error);
+        });
+      });
+    };
+
+    btnStream.onclick = () => {
+      // 获取屏幕分享
+      navigator.mediaDevices.getDisplayMedia({ video: true }).then((stream) => {
+        streamObj = stream;
+        console.log("Stream geted");
+        video.srcObject = stream;
+
+        setTimeout(() => {
+          video.play();
+        }, input.value);
+      }).catch((error) => {
+        console.error('Error accessing media devices.', error);
+      });
+    }
+
+    btnStop.onclick = () => {
+      streamObj.getTracks().map((item) => item.stop());
+      video.pause();
+    }
+  </script>
+</body>
+</html>

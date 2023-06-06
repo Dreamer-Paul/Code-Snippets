@@ -65,6 +65,8 @@
   - 自适应根据 Flex 高度实现等比缩放的块元素
 - 2023-04-04：[左右滑动手势](https://dreamer-paul.github.io/Code-Snippets/2023-04-04%20左右滑动手势/)
   - 根据设备类型绑定事件，实现左右滑动手势执行操作
+- 2023-06-01：[Safari 屏幕录制](https://dreamer-paul.github.io/Code-Snippets/2023-06-01%20Safari%20屏幕录制/)
+  - Safari 浏览器下，如果先请求异步操作（超过 1000 ms）后再获取视频流，会导致无法成功获取
 
 ## 开源协议
 
