@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canvas 压缩图片分辨率</title>
+</head>
+<body>
+  <p>使用浏览器的原生 Canvas 实现图片分辨率的压缩，如果原图尺寸过大，将会产生锯齿的现象。</p>
+  <p>
+    <input type="file" name="" id="file" />
+  </p>
+  <canvas id="canvas" width="640" height="480"></canvas>
+  <canvas id="canvas-copy" width="640" height="480"></canvas>
+  <script>
+    const file = document.getElementById("file");
+    const canvas = document.getElementById("canvas");
+    const canvasCopy = document.getElementById("canvas-copy");
+    const context = canvas.getContext("2d");
+    const contextCopy = canvasCopy.getContext("2d");
+
+    file.onchange = (ev) => {
+      console.log(ev.target.files);
+
+      if (ev.target.files.length) {
+        const item = ev.target.files[0];
+        const url = URL.createObjectURL(item);
+
+        const img = new Image();
+        img.src = url;
+
+        img.onload = () => {
+          const { width, height } = img;
+
+          // 等比处理，GPT 写的
+          const aspectRatio = width / height;
+
+          let cropWidth, cropHeight;
+
+          if (aspectRatio < 4/3) {
+            cropWidth = width;
+            cropHeight = cropWidth * 3/4;
+          }
+          else {
+            cropHeight = height;
+            cropWidth = cropHeight * 4/3;
+          }
+
+          const left = (width - cropWidth) / 2;
+          const top = (height - cropHeight) / 2;
+
+          console.log(img.width, img.height);
+
+          context.imageSmoothingEnabled = true;
+          context.imageSmoothingQuality = "high";
+          // context.drawImage(img, 0, 0, 640, 480);
+          context.drawImage(img, left, top, cropWidth, cropHeight, 0, 0, 640, 480);
+
+          // contextCopy.imageSmoothingEnabled = false;
+          contextCopy.drawImage(img, left, top, cropWidth, cropHeight, 0, 0, 640, 480);
+        }
+      }
+    }
+  </script>
+</body>
+</html>
