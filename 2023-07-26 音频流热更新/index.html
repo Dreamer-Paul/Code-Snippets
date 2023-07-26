@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>音频流热更新</title>
+</head>
+<body>
+  <p>通过设备 ID 获取对应的音频轨道，并反复克隆添加到同一条音频流，发现如果被释放（stop）则会导致后续重新添加该设备的音频流均无效。</p>
+  <div>
+    <audio id="audio" controls></audio>
+  </div>
+  <div>
+    <select id="input"></select>
+  </div>
+  <script>
+    const audio = document.querySelector("#audio");
+    const input = document.querySelector("#input");
+
+    let devices;
+    let mediaStream = new MediaStream();
+
+    const getDevices = async () => {
+      devices = await navigator.mediaDevices.enumerateDevices();
+
+      devices.forEach((item) => {
+        if (item.kind === "audioinput") {
+          const el = document.createElement("option");
+          el.innerHTML = item.label;
+          el.value = item.deviceId;
+
+          input.appendChild(el);
+        }
+      });
+
+      console.log(devices);
+    }
+
+    getDevices();
+
+    input.onchange = async (ev) => {
+      console.log("Select Input Audio Device", ev.target.value);
+
+      const getTrack = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          deviceId: {
+            exact: ev.target.value
+          }
+        }
+      });
+
+      console.log(getTrack.getTracks());
+
+      if (getTrack) {
+        mediaStream.addTrack(getTrack.getTracks()[0].clone());
+      }
+
+      if (!audio.srcObject) {
+        audio.srcObject = mediaStream;
+      }
+
+      audio.play();
+    }
+  </script>
+</body>
+</html>
