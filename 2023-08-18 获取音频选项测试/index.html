@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>获取音频选项测试</title>
+</head>
+<body>
+  <h2>获取音频选项测试</h2>
+  <p>勾选不同选项并试听差别，对比下最终的音频质量</p>
+
+  <div>
+    <input type="checkbox" id="noiseSuppressionCheckbox" checked>
+    <label for="noiseSuppressionCheckbox">降噪</label>
+  </div>
+  <div>
+    <input type="checkbox" id="echoCancellationCheckbox" checked>
+    <label for="echoCancellationCheckbox">回声消除</label>
+  </div>
+  <div>
+    <input type="checkbox" id="autoGainControlCheckbox" checked>
+    <label for="autoGainControlCheckbox">自动增益</label>
+  </div>
+
+  <br>
+
+  <button id="recordButton">录音</button>
+  <button id="stopButton">停止</button>
+  <br><br>
+  <audio id="player" controls></audio>
+
+  <script>
+    // 代码基本上是 GPT 编写，我润色了一部分
+    let audioStream;
+
+    const el = {
+      noiseSuppressionCheckbox: document.getElementById("noiseSuppressionCheckbox"),
+      echoCancellationCheckbox: document.getElementById("echoCancellationCheckbox"),
+      autoGainControlCheckbox: document.getElementById("autoGainControlCheckbox"),
+      recordButton: document.getElementById("recordButton"),
+      stopButton: document.getElementById("stopButton"),
+      audio: document.getElementById("player"),
+    }
+
+    el.recordButton.addEventListener("click", startRecording);
+    el.stopButton.addEventListener("click", stopRecording);
+
+    function startRecording() {
+      const constraints = {
+        audio: {
+          noiseSuppression: el.noiseSuppressionCheckbox.checked,
+          echoCancellation: el.echoCancellationCheckbox.checked,
+          autoGainControl: el.autoGainControlCheckbox.checked
+        }
+      };
+
+      navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+        console.log(stream);
+        audioStream = stream;
+        el.audio.srcObject = stream;
+        el.audio.play();
+      }).catch(error => {
+        console.log("获取音频流时出错: ", error);
+      });
+    }
+
+    function stopRecording() {
+      audioStream.getTracks().forEach(track => {
+        track.stop();
+      });
+      el.audio.pause();
+    }
+  </script>
+</body>
+</html>

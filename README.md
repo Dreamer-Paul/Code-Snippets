@@ -69,8 +69,10 @@
   - Safari 浏览器下，如果先请求异步操作（超过 1000 ms）后再获取视频流，会导致无法成功获取
 - 2023-06-09：[Canvas 压缩图片分辨率](https://dreamer-paul.github.io/Code-Snippets/2023-06-09%20Canvas%20压缩图片分辨率/)
   - 使用浏览器的原生 Canvas 实现图片分辨率的压缩，如果原图尺寸过大，将会产生锯齿的现象
-- 2023-07-26：[音频流热更新](https://dreamer-paul.github.io/Code-Snippets/2023-07-26%20Canvas%20音频流热更新/)
+- 2023-07-26：[音频流热更新](https://dreamer-paul.github.io/Code-Snippets/2023-07-26%20音频流热更新/)
   - 尝试在一条音频流上处理切换设备（切换音频轨道）的逻辑
+- 2023-08-18：[获取音频选项测试](https://dreamer-paul.github.io/Code-Snippets/2023-08-18%20获取音频选项测试/)
+  - 勾选不同选项并试听差别，对比下最终的音频质量
 
 ## 开源协议
 
