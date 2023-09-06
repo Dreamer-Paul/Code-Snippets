@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>原生转录测试</title>
+</head>
+<body>
+  <p>测试使用浏览器原生支持的语音转文字功能</p>
+  <button id="start">开始</button>
+  <p id="transcript"></p>
+
+  <script>
+    navigator.mediaDevices.getUserMedia({ audio: true });
+
+    const startBtn = document.querySelector("#start");
+    const transcriptText = document.querySelector("#transcript");
+
+    startBtn.onclick = () => {
+      if (!status) {
+        recognition.start();
+      }
+      else {
+        recognition.stop();
+      }
+    };
+
+    let status = false;
+
+    const setStatus = (nextStatus) => {
+      status = nextStatus;
+
+      startBtn.innerText = status ? "结束" : "开始";
+    };
+
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = "zh-CN";
+    // 控制是否应该返回中期结果
+    recognition.interimResults = true;
+    // 持续识别
+    recognition.continuous = true;
+
+    recognition.addEventListener("start", (res) => {
+      console.log(res);
+      setStatus(true);
+    });
+
+    recognition.addEventListener("end", (res) => {
+      console.log(res);
+      setStatus(false);
+    });
+
+    recognition.addEventListener("audiostart", (res) => {
+      console.log(res);
+    });
+
+    recognition.addEventListener("audioend", (res) => {
+      console.log(res);
+    });
+
+    recognition.addEventListener("result", (res) => {
+      transcriptText.innerText = res.results[0][0].transcript;
+    });
+  </script>
+</body>
+</html>
