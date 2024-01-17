@@ -75,6 +75,8 @@
   - 勾选不同选项并试听差别，对比下最终的音频质量
 - 2023-09-06：[原生转录测试](https://dreamer-paul.github.io/Code-Snippets/2023-09-06%20原生转录测试/)
   - 测试使用浏览器原生支持的语音转文字功能
+- 2024-01-17：[理解 Promise](https://dreamer-paul.github.io/Code-Snippets/2024-01-17%20理解%20Promise/)
+  - 什么时候可以跳过，什么时候可以触发 catch？
 
 ## 开源协议
 

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Promise</title>
+</head>
+<body>
+  <p>返回值为 1 的时候，直接阻断执行到最近的一条 catch 语句</p>
+  <p>返回值为 2 或 3 均不会阻断执行，不会触发 catch</p>
+  <p>如果想继续传递错误，在 catch 继续 throw，直到最近的下一条 catch 语句捕获</p>
+  <script>
+    new Promise((resolve, reject) => {
+      resolve("1");
+    }).then((res) => {
+      if (res === "1") {
+        // 会阻断执行
+        throw new Error("111");
+      }
+
+      if (res === "2") {
+        // 不会阻断执行
+        Promise.reject("222");
+      }
+
+      if (res === "3") {
+        // 不会阻断执行
+        Promise.reject(new Error("333"));
+      }
+
+      console.log("Promise 这一步还在执行");
+    }).then(() => {
+      console.log("所以这里执行了吗");
+    }).catch((error) => {
+      console.log(error);
+
+      // 如果想继续传递错误，在 catch 继续 throw
+      throw error;
+    }).then(() => {
+      console.log("看上去还在执行");
+    }).catch((error) => {
+      console.log("最后的错误捕获", error);
+    })
+  </script>
+</body>
+</html>
