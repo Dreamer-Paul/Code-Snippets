@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>滚动条宽度和样式问题</title>
+  <style>
+    /* :root {
+      scrollbar-color: skyblue orange;
+    } */
+
+    section {
+      margin-bottom: 2em;
+    }
+
+    .scrollbox {
+      width: 350px;
+      height: 200px;
+      overflow: auto;
+      background-color: #eee;
+    }
+
+    .with-scrollbar-color {
+      scrollbar-width: 10px;
+      scrollbar-color: yellow green;
+    }
+
+    .with-webkit-scrollbar-styles ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    .with-webkit-scrollbar-styles ::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background-color: blue;
+    }
+    .with-webkit-scrollbar-styles ::-webkit-scrollbar-track {
+      background-color: yellow;
+    }
+
+    .with-reset .scrollbox {
+      /* scrollbar-color: unset !important; */
+      scrollbar-color: initial !important;
+    }
+  </style>
+</head>
+<body>
+  <p>使用了 <code>scrollbar-color</code> 属性的网页，没法指定滚动条的宽度，且 <code>::-webkit-scrollbar-*</code> 样式不再生效</p>
+
+  <section class="with-scrollbar-color">
+    <h1>with scrollbar-color</h1>
+    <div class="scrollbox">
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus minus tempore in molestias nisi accusamus quam laudantium soluta minima ipsa ad, possimus quaerat, non temporibus! Ratione maxime explicabo repellat optio.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus minus tempore in molestias nisi accusamus quam laudantium soluta minima ipsa ad, possimus quaerat, non temporibus! Ratione maxime explicabo repellat optio.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus minus tempore in molestias nisi accusamus quam laudantium soluta minima ipsa ad, possimus quaerat, non temporibus! Ratione maxime explicabo repellat optio.</p>
+    </div>
+  </section>
+
+  <section class="with-webkit-scrollbar-styles">
+    <h1>with ::-webkit-scrollbar-* styles</h1>
+    <div class="scrollbox">
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus minus tempore in molestias nisi accusamus quam laudantium soluta minima ipsa ad, possimus quaerat, non temporibus! Ratione maxime explicabo repellat optio.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus minus tempore in molestias nisi accusamus quam laudantium soluta minima ipsa ad, possimus quaerat, non temporibus! Ratione maxime explicabo repellat optio.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus minus tempore in molestias nisi accusamus quam laudantium soluta minima ipsa ad, possimus quaerat, non temporibus! Ratione maxime explicabo repellat optio.</p>
+    </div>
+  </section>
+
+  <section class="with-scrollbar-color with-webkit-scrollbar-styles">
+    <h1>both</h1>
+    <div class="scrollbox">
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus minus tempore in molestias nisi accusamus quam laudantium soluta minima ipsa ad, possimus quaerat, non temporibus! Ratione maxime explicabo repellat optio.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus minus tempore in molestias nisi accusamus quam laudantium soluta minima ipsa ad, possimus quaerat, non temporibus! Ratione maxime explicabo repellat optio.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus minus tempore in molestias nisi accusamus quam laudantium soluta minima ipsa ad, possimus quaerat, non temporibus! Ratione maxime explicabo repellat optio.</p>
+    </div>
+  </section>
+
+  <p>你可以发现，<code>scrollbar-color</code> 存在时，<code>::-webkit-scrollbar-*</code> 属性的样式效果均失效，无法修改宽度。但是你又不可以使用 <code>scrollbar-width</code> 属性修改其宽度。</p>
+  <p>使用 <code>scrollbar-color: initial !important</code> 可以忽略父元素的滚动条样式，变成第二种 <code>::-webkit-scrollbar-*</code> 的效果</p>
+
+  <section class="with-scrollbar-color with-webkit-scrollbar-styles with-reset">
+    <h1>reset</h1>
+    <div class="scrollbox">
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus minus tempore in molestias nisi accusamus quam laudantium soluta minima ipsa ad, possimus quaerat, non temporibus! Ratione maxime explicabo repellat optio.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus minus tempore in molestias nisi accusamus quam laudantium soluta minima ipsa ad, possimus quaerat, non temporibus! Ratione maxime explicabo repellat optio.</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus minus tempore in molestias nisi accusamus quam laudantium soluta minima ipsa ad, possimus quaerat, non temporibus! Ratione maxime explicabo repellat optio.</p>
+    </div>
+  </section>
+</body>
+</html>

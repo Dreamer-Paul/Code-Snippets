@@ -77,6 +77,8 @@
   - 测试使用浏览器原生支持的语音转文字功能
 - 2024-01-17：[理解 Promise](https://dreamer-paul.github.io/Code-Snippets/2024-01-17%20理解%20Promise/)
   - 什么时候可以跳过，什么时候可以触发 catch？
+- 2024-03-22：[滚动条宽度和样式问题](https://dreamer-paul.github.io/Code-Snippets/2024-03-22%20滚动条宽度和样式问题/)
+  - 有些网站的滚动条宽度和样式怎么改都没效果，为什么？
 
 ## 开源协议
 
