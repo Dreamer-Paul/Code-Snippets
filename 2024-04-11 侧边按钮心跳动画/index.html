@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>侧边按钮心跳动画</title>
+  <style>
+    .button {
+      top: 50%;
+      right: 0;
+      padding: 1em;
+      color: #fff;
+      position: fixed;
+      padding-right: 3em;
+      transform: translateX(calc(100% - 3em));
+      background-color: hotpink;
+      border-radius: 40px 0 0 40px;
+
+      transform-origin: right;
+      animation: heartbeat .5s infinite alternate;
+    }
+
+    @keyframes heartbeat {
+      0% {
+        transform: scale(1) translateX(calc(100% - 3em));
+      }
+      100% {
+        transform: scale(1) translateX(calc(100% - 4em));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="button">侧边按钮</div>
+</body>
+</html>

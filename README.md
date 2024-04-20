@@ -79,8 +79,12 @@
   - 什么时候可以跳过，什么时候可以触发 catch？
 - 2024-03-22：[滚动条宽度和样式问题](https://dreamer-paul.github.io/Code-Snippets/2024-03-22%20滚动条宽度和样式问题/)
   - 有些网站的滚动条宽度和样式怎么改都没效果，为什么？
+- 2024-04-11：[侧边按钮心跳动画](https://dreamer-paul.github.io/Code-Snippets/2024-04-11%20侧边按钮心跳动画/)
+  - 一个供浏览器插件使用的侧边按钮“心跳”弹出动画
 - 2024-04-13：[SVG 音频波形动画](https://dreamer-paul.github.io/Code-Snippets/2024-04-13%20SVG%20音频波形动画/)
   - 使用 SVG 和 CSS 动画，实现一个音频波形动画，表示当前音乐正在播放
+- 2024-04-19：[动态伸缩提醒布局](https://dreamer-paul.github.io/Code-Snippets/2024-04-19%20动态伸缩提醒布局/)
+  - 基于 Flex 布局的，自动根据文字长度换行的提醒基础样式
 
 ## 开源协议
 

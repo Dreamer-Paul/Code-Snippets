@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>动态伸缩提醒布局</title>
+  <style>
+    .wrap {
+      margin: 1em auto;
+      max-width: 30em;
+    }
+
+    .toast {
+      row-gap: 1em;
+      padding: 1em;
+      display: flex;
+      flex-wrap: wrap;
+      border-radius: 1em;
+      margin-bottom: 1em;
+      border: 2px solid #eee;
+
+      .text {
+        gap: .5em;
+        margin: 0;
+        flex: 1 auto;
+        display: flex;
+        align-items: baseline;
+      }
+
+      .btn-group {
+        flex: 1 5em;
+        text-align: right;
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="toast">
+      <p class="text">
+        <span>⚠️</span>
+        当前没检测到声音，已暂停翻译
+      </p>
+    </div>
+
+    <div class="toast">
+      <p class="text">
+        <span>⚠️</span>
+        余额剩余 9:32
+      </p>
+      <div class="btn-group">
+        <button>充值</button>
+      </div>
+    </div>
+
+    <div class="toast">
+      <p class="text">
+        <span>⚠️</span>
+        余额不足，新用户注册后可活动 30 分钟时长赠送
+      </p>
+      <div class="btn-group">
+        <button>登录</button>
+        <button>注册</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
