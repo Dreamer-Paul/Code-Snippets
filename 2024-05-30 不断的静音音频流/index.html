@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>不断的静音音频流</title>
+</head>
+<body>
+  <p>使用 <code>AudioContext</code> 和 <code>createMediaStreamDestination</code> 创建一条音频流，通过 <code>GainNode</code> 控制输入的声音大小，但不中断音频流。</p>
+  <div>
+    <audio id="audio" controls></audio>
+  </div>
+  <button id="start">Start</button>
+  <button id="end">End</button>
+  <button id="toggle">Mute</button>
+
+  <script src="main.js"></script>
+</body>
+</html>

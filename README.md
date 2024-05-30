@@ -85,6 +85,10 @@
   - 使用 SVG 和 CSS 动画，实现一个音频波形动画，表示当前音乐正在播放
 - 2024-04-19：[动态伸缩提醒布局](https://dreamer-paul.github.io/Code-Snippets/2024-04-19%20动态伸缩提醒布局/)
   - 基于 Flex 布局的，自动根据文字长度换行的提醒基础样式
+- 2024-05-30：[不断的静音音频流](https://dreamer-paul.github.io/Code-Snippets/2024-05-30%20不断的静音音频流/)
+  - 使用 AudioContext 和 GainNode 让某个输入源静音，但不中断音频流
+- 2024-05-30：[不断的混合音频流](https://dreamer-paul.github.io/Code-Snippets/2024-05-30%20不断的混合音频流/)
+  - 使用 AudioContext 和 GainNode 分别控制多个输入源静音，但不中断音频流
 
 ## 开源协议
 
