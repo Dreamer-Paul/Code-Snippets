@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>简单文本编辑器</title>
+  <style>
+    .item {
+      padding: .75em;
+      border-radius: .75em;
+      background-color: #fafafa;
+    }
+
+    .item:has(p:focus-visible) {
+      background-color: lightcyan;
+    }
+
+    .item p {
+      margin: 0;
+    }
+
+    .item p[contentEditable] {
+      margin-bottom: .5em;
+    }
+
+    .item p[contentEditable]:focus-visible {
+      outline: none;
+    }
+
+    .item .sub-text {
+      opacity: .6;
+    }
+  </style>
+</head>
+<body>
+  <p>点击中文部分可直接编辑，按 Esc 可取消编辑（自动还原之前的内容），按 Enter 完成编辑。</p>
+  <p>点击英文，会定位到中文最后一个字。</p>
+  <div id="editor">
+    <div class="item">
+      <p contentEditable spellCheck="false">这是一段文本</p>
+      <p class="sub-text">This is a piece of text</p>
+    </div>
+  </div>
+  <script>
+    const rootEl = document.querySelector("#editor");
+    const itemEl = document.querySelector(".item p");
+
+    let prevText = itemEl.innerText;
+
+    const onSave = (str) => {
+      console.log("onSave", str);
+    }
+
+    // 点击父元素，定位到子的末端
+    rootEl.addEventListener("click", (ev) => {
+      if (ev.target.isContentEditable) {
+        return;
+      }
+
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(itemEl);
+      range.collapse(false);
+
+      selection?.removeAllRanges();
+      selection?.addRange(range);
+    });
+
+    itemEl.addEventListener("keydown", (ev) => {
+      const el = ev.target;
+
+      // 看下是否保存
+      if (ev.code === "Enter") {
+        ev.preventDefault();
+        el.blur();
+      }
+      // 取消修改
+      if (ev.code === "Escape") {
+        el.innerText = prevText;
+        el.blur();
+      }
+    });
+
+    itemEl.addEventListener("blur", (ev) => {
+      const trimedText = ev.target.innerText.trim();
+
+      if (prevText === trimedText) {
+        console.log("无修改");
+
+        if (prevText !== ev.target.innerText) {
+          console.log("无修改但有空格");
+          ev.target.innerText = prevText;
+        }
+
+        return;
+      }
+
+      if (ev.target.innerText === "") {
+        console.log("不允许为空");
+        ev.target.innerText = prevText;
+        return;
+      }
+
+      prevText = trimedText;
+      ev.target.innerText = trimedText;
+
+      console.log("修改保存", trimedText);
+
+      onSave?.(trimedText);
+    });
+  </script>
+</body>
+</html>
