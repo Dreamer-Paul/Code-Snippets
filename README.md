@@ -91,6 +91,8 @@
   - 使用 AudioContext 和 GainNode 让某个输入源静音，但不中断音频流
 - 2024-05-30：[不断的混合音频流](https://dreamer-paul.github.io/Code-Snippets/2024-05-30%20不断的混合音频流/)
   - 使用 AudioContext 和 GainNode 分别控制多个输入源静音，但不中断音频流
+- 2024-08-14：[SVG 转 JSX 处理工具](https://dreamer-paul.github.io/Code-Snippets/2024-08-14SVG%20转%20JSX%20处理工具/)
+  - 将 SVG 图片的一些属性名称转换为 React JSX 支持的格式
 
 ## 开源协议
 

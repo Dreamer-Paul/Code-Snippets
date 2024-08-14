@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SVG 转 JSX 处理工具</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    textarea, pre {
+      width: 100%;
+      font: inherit;
+      max-width: 60em;
+      border: 1px solid #ccc;
+    }
+
+    pre {
+      overflow: auto;
+      min-height: 10em;
+    }
+  </style>
+</head>
+<body>
+  <p>本项目将 SVG 图片的一些属性名称转换为 React JSX 支持的格式。</p>
+  <textarea id="input" rows="10"></textarea>
+  <pre id="output"></pre>
+  <button id="start">开始</button>
+  <button id="reverse">逆向</button>
+  <button id="copy">复制</button>
+  <script>
+    const el = {
+      input: document.querySelector("#input"),
+      output: document.querySelector("#output"),
+      start: document.querySelector("#start"),
+      reverse: document.querySelector("#reverse"),
+      copy: document.querySelector("#copy"),
+    };
+
+    const replaceMap = [
+      ["fill-rule", "fillRule"],
+      ["clip-rule", "clipRule"],
+      ["clip-path", "clipPath"],
+      ["stroke-width", "strokeWidth"],
+      ["stroke-linecap", "strokeLinecap"],
+      ["stroke-linejoin", "strokeLinejoin"]
+    ];
+
+    el.start.addEventListener("click", () => {
+      let result = "";
+
+      result = el.input.value;
+
+      replaceMap.forEach((item) => {
+        result = result.replace(item[0], item[1]);
+      });
+
+      el.output.innerText = result;
+    });
+
+    el.reverse.addEventListener("click", () => {
+      let result = "";
+
+      result = el.input.value;
+
+      replaceMap.forEach((item) => {
+        result = result.replace(item[1], item[0]);
+      });
+
+      el.output.innerText = result;
+    });
+
+    el.copy.addEventListener("click", async () => {
+      const text = el.output.innerText;
+
+      try {
+        await navigator.clipboard.writeText(text);
+        console.log("内容已复制到剪贴板");
+      } catch (error) {
+        console.error("复制到剪贴板失败", error);
+      }
+    });
+  </script>
+</body>
+</html>
