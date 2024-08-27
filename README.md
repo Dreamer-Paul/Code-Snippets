@@ -93,6 +93,8 @@
   - 使用 AudioContext 和 GainNode 分别控制多个输入源静音，但不中断音频流
 - 2024-08-14：[SVG 转 JSX 处理工具](https://dreamer-paul.github.io/Code-Snippets/2024-08-14%20SVG%20转%20JSX%20处理工具/)
   - 将 SVG 图片的一些属性名称转换为 React JSX 支持的格式
+- 2024-08-15：[中文输入法限流](https://dreamer-paul.github.io/Code-Snippets/2024-08-15%20中文输入法限流/)
+  - 使用 composition 事件实现仅输入完毕后触发操作，其实和传统的节流（Throttle）防抖（Debounce）概念不同
 - 2024-08-21：[书写方向往左文字自动排版](https://dreamer-paul.github.io/Code-Snippets/2024-08-21%20书写方向往左文字自动排版/)
   - 只需要加入 `dir="auto"` 即可自动根据语言书写方向渲染文字，但也有需要注意的情况
 

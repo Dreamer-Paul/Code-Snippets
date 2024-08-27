@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中文输入法限流</title>
+  <style>
+    section {
+      margin-bottom: 3em;
+    }
+
+    input {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <p>目标：如何让中文输入法在输入过程中，不会触发事件响应，仅输入结束后才触发</p>
+  <section>
+    <label for="input-a">onchange</label>
+    <input type="text" id="input-a" />
+    <p>失去焦点才会触发事件</p>
+  </section>
+  <section>
+    <label for="input-b">oninput</label>
+    <input type="text" id="input-b" />
+    <p>输入过程拼音部分也会触发事件</p>
+  </section>
+  <section>
+    <label for="input-c">onkeyup</label>
+    <input type="text" id="input-c" />
+    <p>任意按键按下后触发事件</p>
+  </section>
+  <section>
+    <label for="input-d">compositionstart + compositionend + oninput</label>
+    <input type="text" id="input-d" />
+    <p>composition 事件限制输入过程中 oninput 的响应</p>
+    <p>按下 Space 或 Enter 均不会触发 oninput 事件（compositionend 还没触发）</p>
+  </section>
+  <section>
+    <label for="input-e">compositionstart + compositionend + onkeyup</label>
+    <input type="text" id="input-e" />
+    <p>composition 事件限制输入过程中 onkeyup 的响应</p>
+    <p>与上面 oninput 不同的是，输入结束后会触发 onkeyup 事件（compositionend 触发了）</p>
+  </section>
+  <section>
+    <p>总结：compositionstart + compositionend + oninput 这套组合拳比较合适，oninput 处理英语场景，compositionend 处理中文场景即可。</p>
+  </section>
+  <script>
+    const el = {
+      inputA: document.querySelector("#input-a"),
+      inputB: document.querySelector("#input-b"),
+      inputC: document.querySelector("#input-c"),
+      inputD: document.querySelector("#input-d"),
+      inputE: document.querySelector("#input-e"),
+    };
+
+    el.inputA.onchange = (ev) => {
+      console.log("inputA: ", ev.target.value);
+    };
+
+    el.inputB.oninput = (ev) => {
+      console.log("inputB: ", ev.target.value);
+    };
+
+    el.inputC.onkeyup = (ev) => {
+      console.log("inputC onkeyup: ", ev.target.value);
+    };
+
+    // 会延迟一个字符
+    // el.inputC.onkeydown = (ev) => {
+    //   console.log("inputC onkeydown: ", ev.target.value);
+    // };
+
+    // 中文输入法输入完不会响应（空格或回车），且已废弃
+    // el.inputC.onkeypress = (ev) => {
+    //   console.log("inputC onkeypress: ", ev.target.value);
+    // };
+
+    // 同中文输入法输入完不会响应（空格或回车）
+    // el.inputC.onbeforeinput = (ev) => {
+    //   console.log("inputC onbeforeinput: ", ev.target.value);
+    // };
+
+    let inputDEnd = false;
+
+    el.inputD.addEventListener("compositionstart", (ev) => {
+      inputDEnd = false;
+      console.log("inputD compositionstart: ", ev.target.value);
+    });
+
+    el.inputD.addEventListener("compositionend", (ev) => {
+      inputDEnd = true;
+      console.log("inputD compositionend: ", ev.target.value);
+    });
+
+
+    el.inputD.oninput = (ev) => {
+      if (inputDEnd) {
+        console.log("inputD oninput: ", ev.target.value);
+      }
+    };
+
+    let inputEEnd = false;
+
+    el.inputE.addEventListener("compositionstart", (ev) => {
+      inputEEnd = false;
+      console.log("inputE compositionstart: ", ev.target.value);
+    });
+
+    el.inputE.addEventListener("compositionend", (ev) => {
+      inputEEnd = true;
+      console.log("inputE compositionend: ", ev.target.value);
+    });
+
+    el.inputE.onkeyup = (ev) => {
+      if (inputEEnd) {
+        console.log("inputE onkeyup: ", ev.target.value);
+      }
+    };
+  </script>
+</body>
+</html>
