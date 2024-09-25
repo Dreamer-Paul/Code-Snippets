@@ -45,7 +45,11 @@
       ["stroke-width", "strokeWidth"],
       ["stroke-linecap", "strokeLinecap"],
       ["stroke-linejoin", "strokeLinejoin"],
+      ["stroke-miterlimit", "strokeMiterlimit"],
       ["stop-color", "stopColor"],
+      ["text-rendering", "textRendering"],
+      ["shape-rendering", "shapeRendering"],
+      ["image-rendering", "imageRendering"]
     ];
 
     el.start.addEventListener("click", () => {
@@ -54,7 +58,7 @@
       result = el.input.value;
 
       replaceMap.forEach((item) => {
-        result = result.replace(item[0], item[1]);
+        result = result.replaceAll(item[0], item[1]);
       });
 
       el.output.innerText = result;
