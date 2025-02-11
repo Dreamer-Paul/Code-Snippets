@@ -25,10 +25,18 @@
 <body>
   <p>本项目将 SVG 图片的一些属性名称转换为 React JSX 支持的格式。</p>
   <textarea id="input" rows="10"></textarea>
+  <p>要使用 React 组件，先复制下方代码：</p>
+  <pre id="react-import">
+import React, &#123; SVGProps &#125; from "react";
+
+interface IconProps extends SVGProps &#60;SVGSVGElement&#62; &#123;&#125;
+  </pre>
   <pre id="output"></pre>
   <button id="start">开始</button>
   <button id="reverse">逆向</button>
   <button id="copy">复制</button>
+  <button id="generateComponent">生成 React 组件</button>
+  <button id="clear">清空</button>
   <script>
     const el = {
       input: document.querySelector("#input"),
@@ -36,6 +44,8 @@
       start: document.querySelector("#start"),
       reverse: document.querySelector("#reverse"),
       copy: document.querySelector("#copy"),
+      generateComponent: document.querySelector("#generateComponent"),
+      clear: document.querySelector("#clear"),
     };
 
     const replaceMap = [
@@ -73,6 +83,8 @@
         result = result.replace(item[1], item[0]);
       });
 
+      result.replace(" {...props}", "");
+
       el.output.innerText = result;
     });
 
@@ -85,6 +97,27 @@
       } catch (error) {
         console.error("复制到剪贴板失败", error);
       }
+    });
+
+    el.generateComponent.addEventListener("click", () => {
+      let result = el.input.value;
+
+      replaceMap.forEach((item) => {
+        result = result.replaceAll(item[0], item[1]);
+      });
+
+      const componentName = "IconName"; // 你可以根据需要动态生成组件名称
+      const component = `export const ${componentName} = (props: IconProps) => (
+  ${result.replace("<svg", "<svg {...props}")}
+);
+`;
+
+      el.output.innerText = component;
+    });
+
+    el.clear.addEventListener("click", () => {
+      el.input.value = "";
+      el.output.innerText = "";
     });
   </script>
 </body>
