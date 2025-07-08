@@ -32,11 +32,16 @@ import React, &#123; SVGProps &#125; from "react";
 interface IconProps extends SVGProps &#60;SVGSVGElement&#62; &#123;&#125;
   </pre>
   <pre id="output"></pre>
-  <button id="start">开始</button>
-  <button id="reverse">逆向</button>
-  <button id="copy">复制</button>
-  <button id="generateComponent">生成 React 组件</button>
-  <button id="clear">清空</button>
+  <p>
+    <button id="start">开始</button>
+    <button id="reverse">逆向</button>
+    <input id="iconName" placeholder="输入图标名称，如 brand" />
+    <button id="generateComponent">生成 React 组件</button>
+  </p>
+  <p>
+    <button id="copy">复制</button>
+    <button id="clear">清空</button>
+  </p>
   <script>
     const el = {
       input: document.querySelector("#input"),
@@ -46,6 +51,7 @@ interface IconProps extends SVGProps &#60;SVGSVGElement&#62; &#123;&#125;
       copy: document.querySelector("#copy"),
       generateComponent: document.querySelector("#generateComponent"),
       clear: document.querySelector("#clear"),
+      iconName: document.querySelector("#iconName"),
     };
 
     const replaceMap = [
@@ -61,6 +67,9 @@ interface IconProps extends SVGProps &#60;SVGSVGElement&#62; &#123;&#125;
       ["shape-rendering", "shapeRendering"],
       ["image-rendering", "imageRendering"]
     ];
+
+    // 首字母大写的辅助函数
+    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
     el.start.addEventListener("click", () => {
       let result = "";
@@ -106,9 +115,17 @@ interface IconProps extends SVGProps &#60;SVGSVGElement&#62; &#123;&#125;
         result = result.replaceAll(item[0], item[1]);
       });
 
-      const componentName = "IconName"; // 你可以根据需要动态生成组件名称
+      const name = el.iconName.value || "Name";
+      const componentName = `Icon${capitalize(name)}`;
+
+      // 用正则在 <svg ...> 的第一个 > 前插入 {...props}
+      result = result.replace(
+        /<svg([^>]*)>/,
+        (match, attrs) => `<svg${attrs} {...props}>`
+      );
+
       const component = `export const ${componentName} = (props: IconProps) => (
-  ${result.replace("<svg", "<svg {...props}")}
+  ${result}
 );
 `;
 
