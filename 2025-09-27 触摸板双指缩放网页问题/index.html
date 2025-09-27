@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .container {
+      padding: 1em;
+      width: 30em;
+      height: 30em;
+      color: #fff;
+      overflow: auto;
+      background-color: #3498DB;
+      margin-bottom: 2em;
+    }
+  </style>
+</head>
+<body>
+  <h1>触摸板双指缩放网页问题</h1>
+  <p>在苹果电脑上，触摸板的双指缩放行为是默认的，可以通过判断 <code>wheel</code> 事件的 <code>ctrlKey</code> 属性来阻止。</p>
+  <p>不确定这是否是一个标准化的行为</p>
+  <div class="container" id="controlled-container">
+    <h2>这个容器检测 ctrlKey</h2>
+    <p>你会发现触摸板不能双指缩放整个网页</p>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Provident, necessitatibus eveniet voluptate soluta quo non fugit nisi cumque, repellendus veniam perspiciatis sapiente doloremque tempore molestias ullam! Id aliquam debitis quis?</p>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Provident, necessitatibus eveniet voluptate soluta quo non fugit nisi cumque, repellendus veniam perspiciatis sapiente doloremque tempore molestias ullam! Id aliquam debitis quis?</p>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Provident, necessitatibus eveniet voluptate soluta quo non fugit nisi cumque, repellendus veniam perspiciatis sapiente doloremque tempore molestias ullam! Id aliquam debitis quis?</p>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Provident, necessitatibus eveniet voluptate soluta quo non fugit nisi cumque, repellendus veniam perspiciatis sapiente doloremque tempore molestias ullam! Id aliquam debitis quis?</p>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Provident, necessitatibus eveniet voluptate soluta quo non fugit nisi cumque, repellendus veniam perspiciatis sapiente doloremque tempore molestias ullam! Id aliquam debitis quis?</p>
+  </div>
+  <div class="container">
+    <h2>这个容器没有检测 ctrlKey</h2>
+    <p>你会发现触摸板可以双指缩放整个网页</p>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Provident, necessitatibus eveniet voluptate soluta quo non fugit nisi cumque, repellendus veniam perspiciatis sapiente doloremque tempore molestias ullam! Id aliquam debitis quis?</p>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Provident, necessitatibus eveniet voluptate soluta quo non fugit nisi cumque, repellendus veniam perspiciatis sapiente doloremque tempore molestias ullam! Id aliquam debitis quis?</p>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Provident, necessitatibus eveniet voluptate soluta quo non fugit nisi cumque, repellendus veniam perspiciatis sapiente doloremque tempore molestias ullam! Id aliquam debitis quis?</p>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Provident, necessitatibus eveniet voluptate soluta quo non fugit nisi cumque, repellendus veniam perspiciatis sapiente doloremque tempore molestias ullam! Id aliquam debitis quis?</p>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Provident, necessitatibus eveniet voluptate soluta quo non fugit nisi cumque, repellendus veniam perspiciatis sapiente doloremque tempore molestias ullam! Id aliquam debitis quis?</p>
+  </div>
+  <script>
+    const container = document.getElementById("controlled-container");
+
+    container.addEventListener("wheel", (event) => {
+      if (event.ctrlKey) {
+        event.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>
