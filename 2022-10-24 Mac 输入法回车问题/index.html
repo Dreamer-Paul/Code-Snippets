@@ -12,22 +12,37 @@
     </style>
 </head>
 <body>
-    <p>在 Mac 系统上使用中文输入法，输入任意内容后不选择联想项，直接按回车键，如果选择非 <code>onkeypress</code> 的方式捕获，则会触发回车事件，正常情况下应该不做处理。</p>
-    <p>目前发现的两种解法：</p>
+    <p>在 Mac 系统上使用中文输入法，输入任意内容后不选择联想项，直接按回车键，如果选择非 <code>onkeypress</code> 的方式捕获，则会触发回车事件，正常情况下应该不做处理。因为表单的提交，只能在单独按下 Enter 键时处理，而不是在输入了一半的时候。</p>
+    <p>目前发现的三种解法：</p>
     <ul>
         <li>使用 <code>onkeypress</code> 结合 <code>event.key === "Enter"</code> 判断</li>
         <li>使用 <code>onkeydown</code> 结合 <code>event.keyCode === 13</code> 判断（此时 key 的值为 "Enter" 时， keyCode 可能不为 13）</li>
+        <li>使用 <code>onkeydown</code> 结合 Composition API 判断</li>
     </ul>
-    <select id="event">
-        <option value="onkeydown">onkeydown</option>
-        <option value="onkeypress">onkeypress</option>
-        <option value="onkeyup">onkeyup</option>
-    </select>
-    <input id="input" />
+    <section>
+        <p>测试和验证</p>
+        <select id="event">
+            <option value="onkeydown">onkeydown</option>
+            <option value="onkeypress">onkeypress</option>
+            <option value="onkeyup">onkeyup</option>
+        </select>
+        <input id="input" />
+    </section>
+    <section>
+        <p>使用 KeyCode 方案（标准已标记为弃用）</p>
+        <input id="input-with-keycode" />
+    </section>
+    <section>
+        <p>使用 Composition API 实战</p>
+        <input id="input-with-composition-api" />
+    </section>
+
     <script>
         const el = {
             select: document.getElementById("event"),
             input: document.getElementById("input"),
+            inputWithKeyCode: document.getElementById("input-with-keycode"),
+            inputWithComposition: document.getElementById("input-with-composition-api"),
         };
 
         const handleKeyEvent = (type, ev) => {
@@ -47,6 +62,34 @@
         input.onkeydown = (ev) => handleKeyEvent("onkeydown", ev);
         input.onkeypress = (ev) => handleKeyEvent("onkeypress", ev);
         input.onkeyup = (ev) => handleKeyEvent("onkeyup", ev);
+
+        // 通过 KeyCode 判断
+        el.inputWithKeyCode.addEventListener("keydown", (ev) => {
+            if (ev.keyCode === 13) {
+                console.log("keyCode 方案，现在可以正常提交表单了");
+            }
+        });
+
+        // 通过 Composition API 判断
+        let isCompositionEnd = true;
+
+        window.addEventListener("compositionstart", () => {
+            isCompositionEnd = false;
+        });
+
+        window.addEventListener("compositionend", () => {
+            isCompositionEnd = true;
+        });
+
+        el.inputWithComposition.addEventListener("keydown", (ev) => {
+            if (!isCompositionEnd) {
+                return;
+            }
+
+            if (ev.key === "Enter") {
+                console.log("Composition API 方案，现在可以正常提交表单了");
+            }
+        });
     </script>
 </body>
 </html>

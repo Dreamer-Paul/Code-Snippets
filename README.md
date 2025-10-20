@@ -28,7 +28,8 @@
 - 2022-10-10：ESLint 配置
   - 基于 AirBnb 的实现二次修改调整而成的配置
 - 2022-10-24：[Mac 输入法回车问题](https://dreamer-paul.github.io/Code-Snippets/2022-10-24%20Mac%20输入法回车问题/)
-  - MacOS 中文输入法回车的时候会触发某些不必要的操作，这是目前我发现运行正常的 2 个解决方案
+  - MacOS 中文输入法回车的时候会触发某些不必要的操作，这是目前我发现运行正常的 3 个解决方案
+  - 因为表单的提交，只能在单独按下 Enter 键时处理，而不是在输入了一半的时候
 - 2022-11-27：[带弹出动画的简单抽屉](https://dreamer-paul.github.io/Code-Snippets/2022-11-27%20带弹出动画的简单抽屉/)
   - 使用原生 JavaScript 编写的简单抽屉，配合 [这篇文章](https://paugram.com/coding/simple-drawer-react-component.html) 阅读更合适
 - 2022-12-07：[截图测试](https://dreamer-paul.github.io/Code-Snippets/2022-12-07%20截图测试/)
