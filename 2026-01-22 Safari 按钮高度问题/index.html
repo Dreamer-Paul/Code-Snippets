@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    button {
+      font: inherit;
+      border: none;
+      padding: .5em;
+    }
+
+    .btn {
+      gap: .5em;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .btn-image {
+      aspect-ratio: 1/1;
+      background-color: #555;
+    }
+
+    .btn-block {
+      display: block;
+    }
+
+    div.btn-block {
+      max-width: 10em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Safari 按钮高度问题</h1>
+  <p>在 Chrome 浏览器下，黑色占位符正常显示。而在 Safari 浏览器下，则消失不见。</p>
+  <button class="btn">
+    <div class="btn-image"></div>
+    <span>按钮文本</span>
+  </button>
+  <p>如果不使用 <code>flex</code> 布局，而是使用 <code>display: block</code>，则黑色占位符高度正常，两个浏览器效果一致。</p>
+  <button class="btn-block">
+    <div class="btn-image"></div>
+    <span>按钮文本</span>
+  </button>
+  <p>这是一个普通 <code>div</code>，使用一样的样式，也是正常的。</p>
+  <div class="btn-block">
+    <div class="btn-image"></div>
+    <span>按钮文本</span>
+  </div>
+</body>
+</html>
