@@ -100,6 +100,7 @@
   - 只需要加入 `dir="auto"` 即可自动根据语言书写方向渲染文字，但也有需要注意的情况
 - 2025-09-27：[触摸板双指缩放网页问题](https://dreamer-paul.github.io/Code-Snippets/2025-09-27%20触摸板双指缩放网页问题/)
 - 2026-01-22：[Safari 按钮高度问题](https://dreamer-paul.github.io/Code-Snippets/2026-01-22%20Safari%20按钮高度问题/)
+- 2026-09-29：[四角圆形缺口效果](https://dreamer-paul.github.io/Code-Snippets/2026-09-29%20四角圆形缺口效果/)
 
 ## 开源协议
 

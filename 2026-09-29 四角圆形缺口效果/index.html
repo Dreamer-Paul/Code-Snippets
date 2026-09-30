@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>四角圆形缺口效果</title>
+  <style>
+    .card {
+      width: 10em;
+      height: 10em;
+      padding: var(--border);
+      text-align: center;
+    }
+
+    .card {
+      --cut: 16px;
+      --border: 1px;
+      --background: #2e4d7f;
+
+      color: var(--background);
+      background:
+        radial-gradient(circle at 0 0,
+          transparent var(--cut),
+          var(--background) calc(var(--cut) + 1px)) 0 0 / 50% 50%,
+
+        radial-gradient(circle at 100% 0,
+          transparent var(--cut),
+          var(--background) calc(var(--cut) + 1px)) 100% 0 / 50% 50%,
+
+        radial-gradient(circle at 0 100%,
+          transparent var(--cut),
+          var(--background) calc(var(--cut) + 1px)) 0 100% / 50% 50%,
+
+        radial-gradient(circle at 100% 100%,
+          transparent var(--cut),
+          var(--background) calc(var(--cut) + 1px)) 100% 100% / 50% 50%;
+
+      background-repeat: no-repeat;
+    }
+
+    .card__inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      --cut: 15.5px;
+      --background: #ffecd3;
+
+      background:
+        radial-gradient(circle at 0 0,
+          transparent var(--cut),
+          var(--background) calc(var(--cut) + 1px)) 0 0 / 50% 50%,
+
+        radial-gradient(circle at 100% 0,
+          transparent var(--cut),
+          var(--background) calc(var(--cut) + 1px)) 100% 0 / 50% 50%,
+
+        radial-gradient(circle at 0 100%,
+          transparent var(--cut),
+          var(--background) calc(var(--cut) + 1px)) 0 100% / 50% 50%,
+
+        radial-gradient(circle at 100% 100%,
+          transparent var(--cut),
+          var(--background) calc(var(--cut) + 1px)) 100% 100% / 50% 50%;
+
+      background-repeat: no-repeat;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="card__inner">
+      Hello
+    </div>
+  </div>
+</body>
+</html>
